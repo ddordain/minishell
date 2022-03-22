@@ -13,6 +13,10 @@ OBJ =	$(SRC:.c=.o)
 
 NAME =	minishell
 
+LIBFT 		= 	libft.a
+
+LIB_DIR		=	libft/
+
 CC =	gcc
 
 CF =	-Wall -Wextra -Werror# -fsanitize=address -g3
@@ -29,13 +33,15 @@ RM =	rm -rf
 all:	$(NAME)
 
 $(NAME):$(OBJ) 
-		$(CC) $(CF) $(OBJ) $(CF2)
-
+		make -C $(LIB_DIR)
+		$(CC) $(CF) $(OBJ) $(CF2) $(LIB_DIR)$(LIBFT)
 clean:
 		$(RM) $(OBJ)
+		make -C $(LIB_DIR) clean
 
 fclean:	clean
 		$(RM) $(NAME)
+		make -C $(LIB_DIR) fclean
 
 re:		fclean all
 
