@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 12:43:10 by pwu               #+#    #+#             */
-/*   Updated: 2022/03/21 12:30:44 by pwu              ###   ########.fr       */
+/*   Updated: 2022/03/22 17:22:17 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # include <sys/wait.h>
 # include <errno.h>
 # include <sys/types.h>
-
+# include "../libft/include/libft.h"
 /* defines */
 
 //prompt
@@ -51,8 +51,6 @@ typedef struct s_command
 	char				**av;
 	int					fdin;
 	int					fdout;
-	struct s_command	*prev;
-	struct s_command	*next;
 }	t_command;
 
 typedef struct s_line

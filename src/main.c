@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 15:00:52 by pwu               #+#    #+#             */
-/*   Updated: 2022/03/21 16:58:29 by pwu              ###   ########.fr       */
+/*   Updated: 2022/03/22 17:22:56 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,11 @@ void	print_tok(t_line *cmdline, t_tok_list *tokens)
 void	minishell_start(t_line *cmdline)
 {
 	t_tok_list	tokens;
-	// t_command	*cmd_start;
+	t_dlist		cmd_list;
 
 	if (lex(cmdline, &tokens) != 0)
+		return ;
+	if (parse(&tokens, &cmd_list) != 0)
 		return ;
 	print_tok(cmdline, &tokens);
 	clear_tok(tokens.tok_begin);

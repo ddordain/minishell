@@ -6,13 +6,13 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/21 16:17:09 by pwu               #+#    #+#             */
-/*   Updated: 2022/03/21 16:58:12 by pwu              ###   ########.fr       */
+/*   Updated: 2022/03/22 17:23:12 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int	parse(t_tok_list *tokens, t_command *cmd_start)
+int	parse(t_tok_list *tokens, t_dlist *cmd_list)
 {
 	
 }
