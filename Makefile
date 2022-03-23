@@ -1,11 +1,13 @@
 # defs
 
 SRC =	src/main.c\
+		src/env/env.c\
+		src/env/env_var_add.c\
+		src/env/env_var_destroy.c\
 		src/lexer/lexer.c\
 		src/lexer/lexer_utils.c\
 		src/lexer/quote_check.c\
-		src/lexer/token_utils.c\
-		src/utils/ft_strlen.c
+		src/lexer/token_utils.c
 
 INC =	inc/minishell.h
 

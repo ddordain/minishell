@@ -1,25 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   env_var_destroy.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/23 10:51:47 by pwu               #+#    #+#             */
-/*   Updated: 2022/03/14 12:54:18 by pwu              ###   ########.fr       */
+/*   Created: 2022/03/23 13:29:53 by pwu               #+#    #+#             */
+/*   Updated: 2022/03/23 13:32:24 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
+#include "../../inc/minishell.h"
 
-int	ft_strlen(const char *s)
+void	env_var_destroy(void *data)
 {
-	int	i;
+	t_env	*env_var;
 
-	if (!s)
-		return (0);
-	i = 0;
-	while (s[i] != '\0')
-		i++;
-	return (i);
+	env_var = data;
+	if (env_var != NULL)
+	{
+		if (env_var->name != NULL)
+		{
+			if (env_var->value != NULL)
+				free(env_var->value);
+			free(env_var->name);
+		}
+		free(env_var);
+	}
 }

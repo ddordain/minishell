@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 12:43:10 by pwu               #+#    #+#             */
-/*   Updated: 2022/03/22 17:22:17 by pwu              ###   ########.fr       */
+/*   Updated: 2022/03/23 13:43:27 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,13 @@
 
 typedef struct s_command
 {
-	int					ac;
-	char				**av;
-	int					fdin;
-	int					fdout;
+	int		ac;
+	char	**av;
+	char	**envp;
+	int		fdin;
+	int		fdout;
+	int		pipein;
+	int		pipeout;
 }	t_command;
 
 typedef struct s_line
@@ -73,7 +76,19 @@ typedef struct s_tok_list
 	int		tok_count;
 }	t_tok_list;
 
+typedef struct s_env
+{
+	char	*name;
+	char	*value;
+}	t_env;
+
 /* functions */
+
+/*	* env */
+int		set_env(t_dlist *env, char **envp);
+
+int		env_var_add(t_dlist *env, char *to_add);
+void	env_var_destroy(void *data);
 
 /*	* lexer */
 /*	*	* lexer master */
@@ -92,8 +107,5 @@ int		quote_check(const char *line);
 t_tok	*new_tok(char *content, const int tok_type);
 int		clear_tok(t_tok *tok);
 char	*get_tok_content(t_line *cmdline, const int tok_type);
-
-/*	* utils */
-int		ft_strlen(const char *s);
 
 #endif		// MINISHELL_H
