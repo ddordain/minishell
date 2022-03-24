@@ -6,41 +6,11 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 16:33:25 by pwu               #+#    #+#             */
-/*   Updated: 2022/03/21 12:59:30 by pwu              ###   ########.fr       */
+/*   Updated: 2022/03/24 17:31:59 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-t_tok	*new_tok(char *content, const int tok_type)
-{
-	t_tok	*res;
-
-	if (!content)
-		return (NULL);
-	res = malloc(sizeof(t_tok));
-	if (!res)
-	{
-		perror("minishell");
-		free(content);
-		return (NULL);
-	}
-	res->content = content;
-	res->type = tok_type;
-	res->next = NULL;
-	return (res);
-}
-
-int	clear_tok(t_tok *tok)
-{
-	if (tok != NULL)
-	{
-		free(tok->content);
-		clear_tok(tok->next);
-		free(tok);
-	}
-	return (-1);
-}
 
 static void	get_tok_end(const t_line *cmdline, const int tok_type,
 	int *tok_end)
@@ -62,10 +32,7 @@ char	*get_tok_content(t_line *cmdline, const int tok_type)
 	get_tok_end(cmdline, tok_type, &end);
 	res = malloc(sizeof(char) * (end - cmdline->i + 1));
 	if (!res)
-	{
-		perror("minishell");
 		return (NULL);
-	}
 	j = 0;
 	while (cmdline->i < end)
 	{
@@ -75,4 +42,17 @@ char	*get_tok_content(t_line *cmdline, const int tok_type)
 	}
 	res[j] = 0;
 	return (res);
+}
+
+void	tok_destroy(void *data)
+{
+	t_tok	*token;
+
+	token = data;
+	if (token)
+	{
+		if (token->content)
+			free(token->content);
+		free(token);
+	}
 }

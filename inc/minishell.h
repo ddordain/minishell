@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 12:43:10 by pwu               #+#    #+#             */
-/*   Updated: 2022/03/23 13:43:27 by pwu              ###   ########.fr       */
+/*   Updated: 2022/03/24 17:57:38 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 # define PROMPT "\033[1;33mminishell$>\033[0m"
 
 //elements
+# define NUL_TOK -2
 # define EOF_TOK -1
 # define WORD 0
 # define SQUOTE 1			// '
@@ -67,14 +68,7 @@ typedef struct s_tok
 {
 	char			*content;
 	int				type;
-	struct s_tok	*next;
 }	t_tok;
-
-typedef struct s_tok_list
-{
-	t_tok	*tok_begin;
-	int		tok_count;
-}	t_tok_list;
 
 typedef struct s_env
 {
@@ -92,7 +86,7 @@ void	env_var_destroy(void *data);
 
 /*	* lexer */
 /*	*	* lexer master */
-int		lex(t_line *cmdline, t_tok_list *tokens);
+int		lex(t_line *cmdline, t_dlist *tokens);
 
 /*	*	* lexer utils */
 bool	is_space(const char c);
@@ -104,8 +98,7 @@ int		find_operator(const char *line, const int start);
 int		quote_check(const char *line);
 
 /*	*	* token utils*/
-t_tok	*new_tok(char *content, const int tok_type);
-int		clear_tok(t_tok *tok);
+void	tok_destroy(void *data);
 char	*get_tok_content(t_line *cmdline, const int tok_type);
 
 #endif		// MINISHELL_H

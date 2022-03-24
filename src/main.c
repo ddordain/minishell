@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 15:00:52 by pwu               #+#    #+#             */
-/*   Updated: 2022/03/23 13:23:17 by pwu              ###   ########.fr       */
+/*   Updated: 2022/03/24 17:52:06 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,44 +23,47 @@ static void	read_line(t_line *cmdline)
 	cmdline->i = 0;
 }
 
-void	print_tok(t_line *cmdline, t_tok_list *tokens)
+void	print_tok(t_dlist *tokens)
 {
-	t_tok	*token;
+	t_elem	*cur_elem;
+	t_tok	*cur_data;
 
-	token = tokens->tok_begin;
-	printf("line: $>%s\ntokens: %d\n\n", cmdline->line, tokens->tok_count);
-	while (token != NULL)
+	cur_elem = tokens->head;
+	printf("tokens: %d\n\n", tokens->size);
+	while (cur_elem != NULL)
 	{
-		printf("type: %d content: [%s]\n", token->type, token->content);
-		token = token->next;
+		cur_data = cur_elem->data;
+		printf("type: %d content: [%s]\n", cur_data->type, cur_data->content);
+		cur_elem = cur_elem->next;
 	}
 }
 
 void	minishell_start(t_line *cmdline)
 {
-	t_tok_list	tokens;
+	t_dlist	tokens;
 	// t_dlist		cmd_list;
 
+	ft_dlist_init(&tokens, tok_destroy);
 	if (lex(cmdline, &tokens) != 0)
 		return ;
 	// if (parse(&tokens, &cmd_list) != 0)
 	// 	return ;
-	print_tok(cmdline, &tokens);
-	clear_tok(tokens.tok_begin);
+	print_tok(&tokens);
+	ft_dlist_destroy(&tokens);
 }
 
 void	print_env(t_dlist *env_start)
 {
-	t_elem	*cur;
-	t_env	*elem;
+	t_elem	*cur_elem;
+	t_env	*cur_data;
 
-	cur = env_start->head;
+	cur_elem = env_start->head;
 	printf("environment variables: %d\n", env_start->size);
-	while (cur != NULL)
+	while (cur_elem != NULL)
 	{
-		elem = cur->data;
-		printf("%s = %s\n", elem->name, elem->value);
-		cur = cur->next;
+		cur_data = cur_elem->data;
+		printf("%s = %s\n", cur_data->name, cur_data->value);
+		cur_elem = cur_elem->next;
 	}
 }
 
@@ -78,7 +81,6 @@ int	main(int ac, char **av, char **envp)
 	}
 	print_env(&env_start);
 	ft_dlist_destroy(&env_start);
-	return (EXIT_SUCCESS);
 	while (1)
 	{
 		read_line(&cmdline);
