@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 15:00:52 by pwu               #+#    #+#             */
-/*   Updated: 2022/03/24 17:52:06 by pwu              ###   ########.fr       */
+/*   Updated: 2022/03/25 12:17:47 by ddordain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,18 +38,18 @@ void	print_tok(t_dlist *tokens)
 	}
 }
 
-void	minishell_start(t_line *cmdline)
+void	minishell_start(t_line *cmdline, t_minishell *sh)
 {
-	t_dlist	tokens;
+	// t_dlist	tokens;
 	// t_dlist		cmd_list;
 
-	ft_dlist_init(&tokens, tok_destroy);
-	if (lex(cmdline, &tokens) != 0)
+	//ft_dlist_init(&sh->dl_tok, tok_destroy);
+	if (lex(cmdline, &sh->dl_tok) != 0)
 		return ;
 	// if (parse(&tokens, &cmd_list) != 0)
 	// 	return ;
-	print_tok(&tokens);
-	ft_dlist_destroy(&tokens);
+	print_tok(&sh->dl_tok);
+	ft_dlist_destroy(&sh->dl_tok);
 }
 
 void	print_env(t_dlist *env_start)
@@ -67,28 +67,38 @@ void	print_env(t_dlist *env_start)
 	}
 }
 
+static void init(t_minishell *sh)
+{
+	ft_dlist_init(&sh->dl_cmd,free);
+	ft_dlist_init(&sh->dl_env, env_var_destroy);
+	ft_dlist_init(&sh->dl_tok, tok_destroy);
+}
+
 int	main(int ac, char **av, char **envp)
 {
-	t_line	cmdline;
-	t_dlist	env_start;
+	t_line		cmdline;
+	t_minishell	sh;
 
 	(void)ac;
 	(void)av;
-	if (set_env(&env_start, envp) != 0)
+	//ft_dlist_init(&sh.dl_env, free);
+	init(&sh);
+	if (set_env(&sh.dl_env, envp) != 0)
 	{
-		ft_dlist_destroy(&env_start);
+		ft_dlist_destroy(&sh.dl_env);
 		return (EXIT_FAILURE);
 	}
-	print_env(&env_start);
-	ft_dlist_destroy(&env_start);
+	print_env(&sh.dl_env);
+	ft_dlist_destroy(&sh.dl_env);
 	while (1)
 	{
 		read_line(&cmdline);
 		if (!cmdline.line)
 			break ;
-		minishell_start(&cmdline);
+		minishell_start(&cmdline, &sh);
 		free(cmdline.line);
 	}
 	rl_clear_history();
+	perror_exit("", &sh);
 	return (EXIT_SUCCESS);
 }

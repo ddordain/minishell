@@ -7,7 +7,8 @@ SRC =	src/main.c\
 		src/lexer/lexer.c\
 		src/lexer/lexer_utils.c\
 		src/lexer/quote_check.c\
-		src/lexer/token_utils.c
+		src/lexer/token_utils.c\
+		src/error/error.c\
 
 INC =	inc/minishell.h
 

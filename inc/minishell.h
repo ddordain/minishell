@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 12:43:10 by pwu               #+#    #+#             */
-/*   Updated: 2022/03/24 17:57:38 by pwu              ###   ########.fr       */
+/*   Updated: 2022/03/25 12:14:49 by ddordain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,13 @@
 # define INVAL_OP 8
 
 /* structs */
+
+typedef struct s_minishell
+{
+	t_dlist	dl_cmd;
+	t_dlist dl_tok;
+	t_dlist	dl_env;
+}	t_minishell;
 
 typedef struct s_command
 {
@@ -100,5 +107,8 @@ int		quote_check(const char *line);
 /*	*	* token utils*/
 void	tok_destroy(void *data);
 char	*get_tok_content(t_line *cmdline, const int tok_type);
+
+/* error utils */
+void	perror_exit(const char *str, t_minishell *sh);
 
 #endif		// MINISHELL_H
