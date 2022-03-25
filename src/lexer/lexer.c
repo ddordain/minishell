@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 16:14:22 by pwu               #+#    #+#             */
-/*   Updated: 2022/03/24 17:57:45 by pwu              ###   ########.fr       */
+/*   Updated: 2022/03/25 14:59:58 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,21 @@ static int	get_tok_type(const t_line *cmdline)
 		return (EOF_TOK);
 }
 
-static int	check_format(const t_elem *cur_elem, const t_tok *cur_data)
+static int	check_format(const t_elem *cur_elem, const t_tok *cur_tok)
 {
-	t_tok	*next_data;
+	t_tok	*next_tok;
 
-	next_data = cur_elem->next->data;
-	if ((cur_data->type == PIPE
-			&& (!cur_elem->prev || (next_data->type == EOF_TOK
-					|| next_data->type == PIPE)))
-		|| ((cur_data->type >= 3 && cur_data->type <= 6)
-			&& next_data->type != WORD))
+	next_tok = cur_elem->next->data;
+	if ((cur_tok->type == PIPE
+			&& (!cur_elem->prev || (next_tok->type == EOF_TOK
+					|| next_tok->type == PIPE)))
+		|| ((cur_tok->type >= 3 && cur_tok->type <= 6)
+			&& next_tok->type != WORD))
 		return (write(2, "Syntax error: format\n", 21));
 	return (0);
 }
 
-static int	tok_error(t_tok *token, char *message)
+static int	tok_error(t_tok *token, const char *message)
 {
 	tok_destroy(token);
 	if (message)
@@ -71,24 +71,21 @@ int	token_add(t_dlist *tokens, t_line *cmdline)
 int	lex(t_line *cmdline, t_dlist *tokens)
 {
 	t_elem	*cur_elem;
-	t_tok	*cur_data;
+	t_tok	*cur_tok;
 
 	if (quote_check(cmdline->line))
 		return (write(2, "Syntax error: quote\n", 20));
 	if (token_add(tokens, cmdline) != 0)
 		return (-1);
 	cur_elem = tokens->head;
-	cur_data = cur_elem->data;
-	while (cur_data->type != EOF_TOK)
+	cur_tok = cur_elem->data;
+	while (cur_tok->type != EOF_TOK)
 	{
 		if (token_add(tokens, cmdline) != 0
-			|| check_format(cur_elem, cur_data))
-		{
-			ft_dlist_destroy(tokens);
+			|| check_format(cur_elem, cur_tok))
 			return (-1);
-		}
 		cur_elem = cur_elem->next;
-		cur_data = cur_elem->data;
+		cur_tok = cur_elem->data;
 	}
 	return (0);
 }

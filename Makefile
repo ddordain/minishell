@@ -9,6 +9,9 @@ SRC =	src/main.c\
 		src/lexer/quote_check.c\
 		src/lexer/token_utils.c\
 		src/error/error.c\
+		src/parsing/parse.c\
+		src/parsing/expansion.c\
+		src/parsing/expansion_utils.c\
 
 INC =	inc/minishell.h
 

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 15:00:52 by pwu               #+#    #+#             */
-/*   Updated: 2022/03/25 12:17:47 by ddordain         ###   ########.fr       */
+/*   Updated: 2022/03/25 15:06:16 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-static void	read_line(t_line *cmdline)
+static void	minishell_read(t_line *cmdline)
 {
 	cmdline->line = readline(PROMPT);
 	if (!cmdline->line)
@@ -23,7 +23,7 @@ static void	read_line(t_line *cmdline)
 	cmdline->i = 0;
 }
 
-void	print_tok(t_dlist *tokens)
+void	debug_print_tok(t_dlist *tokens)
 {
 	t_elem	*cur_elem;
 	t_tok	*cur_data;
@@ -38,21 +38,18 @@ void	print_tok(t_dlist *tokens)
 	}
 }
 
-void	minishell_start(t_line *cmdline, t_minishell *sh)
+int	minishell_start(t_line *cmdline, t_minishell *sh)
 {
-	// t_dlist	tokens;
-	// t_dlist		cmd_list;
-
-	//ft_dlist_init(&sh->dl_tok, tok_destroy);
 	if (lex(cmdline, &sh->dl_tok) != 0)
-		return ;
-	// if (parse(&tokens, &cmd_list) != 0)
-	// 	return ;
-	print_tok(&sh->dl_tok);
+		return (-1);
+	if (parse(&sh->dl_tok, &sh->dl_env) != 0)
+		return (-1);
+	debug_print_tok(&sh->dl_tok);
 	ft_dlist_destroy(&sh->dl_tok);
+	return (0);
 }
 
-void	print_env(t_dlist *env_start)
+void	debug_print_env(t_dlist *env_start)
 {
 	t_elem	*cur_elem;
 	t_env	*cur_data;
@@ -67,9 +64,9 @@ void	print_env(t_dlist *env_start)
 	}
 }
 
-static void init(t_minishell *sh)
+static void	minishell_init(t_minishell *sh)
 {
-	ft_dlist_init(&sh->dl_cmd,free);
+	ft_dlist_init(&sh->dl_cmd, free);
 	ft_dlist_init(&sh->dl_env, env_var_destroy);
 	ft_dlist_init(&sh->dl_tok, tok_destroy);
 }
@@ -81,24 +78,22 @@ int	main(int ac, char **av, char **envp)
 
 	(void)ac;
 	(void)av;
-	//ft_dlist_init(&sh.dl_env, free);
-	init(&sh);
+	minishell_init(&sh);
 	if (set_env(&sh.dl_env, envp) != 0)
 	{
 		ft_dlist_destroy(&sh.dl_env);
 		return (EXIT_FAILURE);
 	}
-	print_env(&sh.dl_env);
-	ft_dlist_destroy(&sh.dl_env);
+	debug_print_env(&sh.dl_env);
 	while (1)
 	{
-		read_line(&cmdline);
+		minishell_read(&cmdline);
 		if (!cmdline.line)
 			break ;
-		minishell_start(&cmdline, &sh);
+		if (minishell_start(&cmdline, &sh) != 0)
+			perror_exit(NULL, &sh);
 		free(cmdline.line);
 	}
 	rl_clear_history();
-	perror_exit("", &sh);
 	return (EXIT_SUCCESS);
 }

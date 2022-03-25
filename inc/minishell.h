@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 12:43:10 by pwu               #+#    #+#             */
-/*   Updated: 2022/03/25 12:14:49 by ddordain         ###   ########.fr       */
+/*   Updated: 2022/03/25 14:57:30 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@
 typedef struct s_minishell
 {
 	t_dlist	dl_cmd;
-	t_dlist dl_tok;
+	t_dlist	dl_tok;
 	t_dlist	dl_env;
 }	t_minishell;
 
@@ -73,8 +73,8 @@ typedef struct s_line
 
 typedef struct s_tok
 {
-	char			*content;
-	int				type;
+	char	*content;
+	int		type;
 }	t_tok;
 
 typedef struct s_env
@@ -108,7 +108,17 @@ int		quote_check(const char *line);
 void	tok_destroy(void *data);
 char	*get_tok_content(t_line *cmdline, const int tok_type);
 
-/* error utils */
+/*	* error utils */
 void	perror_exit(const char *str, t_minishell *sh);
+
+/*	* parsing */
+/*	*	* parser master */
+int		parse(t_dlist *tokens, const t_dlist *env);
+
+/*	*	* expansion */
+int		var_expand(t_tok *cur_tok, const t_dlist *env);
+
+int		ft_len(const char *s);
+void	add_str(char *dst, const char *var, int *pos);
 
 #endif		// MINISHELL_H

@@ -1,33 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   expansion_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/21 16:17:09 by pwu               #+#    #+#             */
-/*   Updated: 2022/03/25 14:56:37 by pwu              ###   ########.fr       */
+/*   Created: 2022/03/25 14:55:31 by pwu               #+#    #+#             */
+/*   Updated: 2022/03/25 14:57:39 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-// 1. expand
-// 2. split
-// 3. unquote
-int	parse(t_dlist *tokens, const t_dlist *env)
+int	ft_len(const char *s)
 {
-	t_elem	*cur_elem;
-	t_tok	*cur_tok;
+	int	len;
 
-	cur_elem = tokens->head;
-	cur_tok = cur_elem->data;
-	while (cur_tok->type != EOF_TOK)
+	if (!s)
+		return (0);
+	while (s[len])
+		len++;
+	return (len);
+}
+
+void	add_str(char *dst, const char *var, int *pos)
+{
+	int	i;
+
+	i = -1;
+	while (var[++i])
 	{
-		if (var_expand(cur_tok, env) != 0)
-			return (-1);
-		cur_elem = cur_elem->next;
-		cur_tok = cur_elem->data;
+		dst[*pos] = var[i];
+		*pos = *pos + 1;
 	}
-	return (0);
 }
