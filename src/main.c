@@ -6,11 +6,13 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 15:00:52 by pwu               #+#    #+#             */
-/*   Updated: 2022/03/25 15:06:16 by pwu              ###   ########.fr       */
+/*   Updated: 2022/03/28 13:18:10 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+unsigned char	g_exit_status = 0;
 
 static void	minishell_read(t_line *cmdline)
 {

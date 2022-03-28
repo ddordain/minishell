@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 12:43:10 by pwu               #+#    #+#             */
-/*   Updated: 2022/03/25 14:57:30 by pwu              ###   ########.fr       */
+/*   Updated: 2022/03/28 12:51:37 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <errno.h>
 # include <sys/types.h>
 # include "../libft/include/libft.h"
+
 /* defines */
 
 //prompt
@@ -83,6 +84,10 @@ typedef struct s_env
 	char	*value;
 }	t_env;
 
+/* global */
+
+extern unsigned char	g_exit_status;
+
 /* functions */
 
 /*	* env */
@@ -120,5 +125,6 @@ int		var_expand(t_tok *cur_tok, const t_dlist *env);
 
 int		ft_len(const char *s);
 void	add_str(char *dst, const char *var, int *pos);
+int		quote_state(const char c, int quote);
 
 #endif		// MINISHELL_H

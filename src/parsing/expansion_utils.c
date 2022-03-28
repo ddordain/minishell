@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 14:55:31 by pwu               #+#    #+#             */
-/*   Updated: 2022/03/25 14:57:39 by pwu              ###   ########.fr       */
+/*   Updated: 2022/03/28 12:51:28 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,23 @@ void	add_str(char *dst, const char *var, int *pos)
 		dst[*pos] = var[i];
 		*pos = *pos + 1;
 	}
+}
+
+int	quote_state(const char c, int quote)
+{
+	if (c == '\'')
+	{
+		if (quote == 0)
+			quote = SQUOTE;
+		else if (quote == SQUOTE)
+			quote = 0;
+	}
+	if (c == '\"')
+	{
+		if (quote == 0)
+			quote = DQUOTE;
+		else if (quote == DQUOTE)
+			quote = 0;
+	}
+	return (quote);
 }
