@@ -6,7 +6,7 @@
 /*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 12:43:10 by pwu               #+#    #+#             */
-/*   Updated: 2022/03/28 15:52:05 by ddordain         ###   ########.fr       */
+/*   Updated: 2022/03/28 17:30:12 by ddordain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,13 @@
 
 /* structs */
 
+typedef struct s_line
+{
+	char		*line;
+	int			len;
+	int			i;
+}	t_line;
+
 typedef struct s_minishell
 {
 	t_dlist	dl_cmd;
@@ -56,32 +63,28 @@ typedef struct s_minishell
 
 typedef struct s_command
 {
-	int		ac;
-	char	**av;
-	char	**envp;
-	int		fdin;
-	int		fdout;
-	int		pipein;
-	int		pipeout;
+	int			ac;
+	char		**av;
+	char		**envp;
+	int			fdin;
+	int			fdout;
+	int			pipein;
+	int			pipeout;
+	t_minishell *sh;
 }	t_command;
-
-typedef struct s_line
-{
-	char	*line;
-	int		len;
-	int		i;
-}	t_line;
 
 typedef struct s_tok
 {
-	char	*content;
-	int		type;
+	char		*content;
+	int			type;
+	t_minishell *sh;
 }	t_tok;
 
 typedef struct s_env
 {
-	char	*name;
-	char	*value;
+	char		*name;
+	char		*value;
+	t_minishell *sh;
 }	t_env;
 
 /* global */
@@ -129,5 +132,8 @@ int		var_expand(t_tok *cur_tok, const t_dlist *env);
 int		ft_len(const char *s);
 void	add_str(char *dst, const char *var, int *pos);
 int		quote_state(const char c, int quote);
+
+/*	*	* built-in */
+void	builtin_cd(t_dlist *dl_env, char *path);
 
 #endif		// MINISHELL_H

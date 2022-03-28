@@ -13,6 +13,7 @@ SRC =	src/main.c\
 		src/parsing/parse.c\
 		src/parsing/expansion.c\
 		src/parsing/expansion_utils.c\
+		src/builtin/cd.c\
 
 INC =	inc/minishell.h
 
