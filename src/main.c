@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 15:00:52 by pwu               #+#    #+#             */
-/*   Updated: 2022/03/28 13:18:10 by pwu              ###   ########.fr       */
+/*   Updated: 2022/03/28 15:42:42 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,20 @@ void	debug_print_tok(t_dlist *tokens)
 
 int	minishell_start(t_line *cmdline, t_minishell *sh)
 {
-	if (lex(cmdline, &sh->dl_tok) != 0)
-		return (-1);
-	if (parse(&sh->dl_tok, &sh->dl_env) != 0)
-		return (-1);
+	int	err_code;
+
+	err_code = lex(cmdline, &sh->dl_tok);
+	if (err_code != 0)
+	{
+		ft_dlist_destroy(&sh->dl_tok);
+		return (err_code);
+	}
+	err_code = parse(&sh->dl_tok, &sh->dl_env);
+	if (err_code != 0)
+	{
+		ft_dlist_destroy(&sh->dl_tok);
+		return (err_code);
+	}
 	debug_print_tok(&sh->dl_tok);
 	ft_dlist_destroy(&sh->dl_tok);
 	return (0);
@@ -92,10 +102,11 @@ int	main(int ac, char **av, char **envp)
 		minishell_read(&cmdline);
 		if (!cmdline.line)
 			break ;
-		if (minishell_start(&cmdline, &sh) != 0)
+		if (minishell_start(&cmdline, &sh) == -1)
 			perror_exit(NULL, &sh);
 		free(cmdline.line);
 	}
+	ft_dlist_destroy(&sh.dl_env);
 	rl_clear_history();
 	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 16:14:22 by pwu               #+#    #+#             */
-/*   Updated: 2022/03/25 14:59:58 by pwu              ###   ########.fr       */
+/*   Updated: 2022/03/28 15:40:48 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,22 @@ static int	check_format(const t_elem *cur_elem, const t_tok *cur_tok)
 					|| next_tok->type == PIPE)))
 		|| ((cur_tok->type >= 3 && cur_tok->type <= 6)
 			&& next_tok->type != WORD))
-		return (write(2, "Syntax error: format\n", 21));
+	{
+		write(2, "Syntax error: format\n", 21);
+		return (1);
+	}
 	return (0);
 }
 
-static int	tok_error(t_tok *token, const char *message)
-{
+static int	lex_error(t_tok *token, const char *message)
+{	
 	tok_destroy(token);
 	if (message)
+	{	
 		write(2, message, ft_strlen(message));
-	else
-		perror("minishell");
+		return (1);
+	}
+	perror("minishell");
 	return (-1);
 }
 
@@ -52,19 +57,19 @@ int	token_add(t_dlist *tokens, t_line *cmdline)
 
 	token = malloc(sizeof(t_tok));
 	if (!token)
-		return (tok_error(NULL, NULL));
+		return (lex_error(NULL, NULL));
 	token->content = NULL;
 	token->type = NUL_TOK;
 	while (is_space(cmdline->line[cmdline->i]))
 		cmdline->i++;
 	token->type = get_tok_type(cmdline);
 	if (token->type == INVAL_OP)
-		return (tok_error(token, "Syntax error: operator\n"));
+		return (lex_error(token, "Syntax error: operator\n"));
 	token->content = get_tok_content(cmdline, token->type);
 	if (token->content == NULL)
-		return (tok_error(token, NULL));
+		return (lex_error(token, NULL));
 	if (ft_dlist_ins_next(tokens, ft_dlist_tail(tokens), token) == -1)
-		return (tok_error(token, NULL));
+		return (lex_error(token, NULL));
 	return (0);
 }
 
@@ -72,18 +77,22 @@ int	lex(t_line *cmdline, t_dlist *tokens)
 {
 	t_elem	*cur_elem;
 	t_tok	*cur_tok;
+	int		err_code;
 
 	if (quote_check(cmdline->line))
-		return (write(2, "Syntax error: quote\n", 20));
-	if (token_add(tokens, cmdline) != 0)
-		return (-1);
+		return (lex_error(NULL, "Syntax error: quote\n"));
+	err_code = token_add(tokens, cmdline);
+	if (err_code != 0)
+		return (err_code);
 	cur_elem = tokens->head;
 	cur_tok = cur_elem->data;
 	while (cur_tok->type != EOF_TOK)
 	{
-		if (token_add(tokens, cmdline) != 0
-			|| check_format(cur_elem, cur_tok))
-			return (-1);
+		err_code = token_add(tokens, cmdline);
+		if (err_code != 0)
+			return (err_code);
+		if (check_format(cur_elem, cur_tok))
+			return (1);
 		cur_elem = cur_elem->next;
 		cur_tok = cur_elem->data;
 	}
