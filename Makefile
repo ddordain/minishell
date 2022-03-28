@@ -4,6 +4,7 @@ SRC =	src/main.c\
 		src/env/env.c\
 		src/env/env_var_add.c\
 		src/env/env_var_destroy.c\
+		src/env/env_utils.c\
 		src/lexer/lexer.c\
 		src/lexer/lexer_utils.c\
 		src/lexer/quote_check.c\

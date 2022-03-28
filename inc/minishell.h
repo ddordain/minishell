@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 12:43:10 by pwu               #+#    #+#             */
-/*   Updated: 2022/03/28 12:51:37 by pwu              ###   ########.fr       */
+/*   Updated: 2022/03/28 15:52:05 by ddordain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,9 @@ extern unsigned char	g_exit_status;
 /*	* env */
 int		set_env(t_dlist *env, char **envp);
 
+t_env	*get_env_elem(t_dlist *dl_env, char *name);
+char	*get_env_value(t_dlist *dl_env, char *name);
+int		set_env_value(t_dlist *dl_env, char *name, char *new_value);
 int		env_var_add(t_dlist *env, char *to_add);
 void	env_var_destroy(void *data);
 
