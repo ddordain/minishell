@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 12:43:10 by pwu               #+#    #+#             */
-/*   Updated: 2022/03/28 17:30:12 by ddordain         ###   ########.fr       */
+/*   Updated: 2022/03/29 15:07:22 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,21 +70,21 @@ typedef struct s_command
 	int			fdout;
 	int			pipein;
 	int			pipeout;
-	t_minishell *sh;
+	t_minishell	*sh;
 }	t_command;
 
 typedef struct s_tok
 {
 	char		*content;
 	int			type;
-	t_minishell *sh;
+	t_minishell	*sh;
 }	t_tok;
 
 typedef struct s_env
 {
 	char		*name;
 	char		*value;
-	t_minishell *sh;
+	t_minishell	*sh;
 }	t_env;
 
 /* global */
@@ -129,11 +129,16 @@ int		parse(t_dlist *tokens, const t_dlist *env);
 /*	*	* expansion */
 int		var_expand(t_tok *cur_tok, const t_dlist *env);
 
+/*	*	* quote removal */
+int		quote_remove(t_tok *cur_tok);
+
+/*	*	* parse utils */
 int		ft_len(const char *s);
 void	add_str(char *dst, const char *var, int *pos);
 int		quote_state(const char c, int quote);
+bool	is_quote(const char c, int *quote);
 
-/*	*	* built-in */
+/*	* built-in */
 void	builtin_cd(t_dlist *dl_env, char *path);
 
 #endif		// MINISHELL_H
