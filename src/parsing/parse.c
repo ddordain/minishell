@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/21 16:17:09 by pwu               #+#    #+#             */
-/*   Updated: 2022/03/25 14:56:37 by pwu              ###   ########.fr       */
+/*   Updated: 2022/03/29 12:18:35 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ int	parse(t_dlist *tokens, const t_dlist *env)
 	{
 		if (var_expand(cur_tok, env) != 0)
 			return (-1);
+		// if (quote_remove(cur_tok, tokens) != 0)
+		// 	return (-1);
 		cur_elem = cur_elem->next;
 		cur_tok = cur_elem->data;
 	}
