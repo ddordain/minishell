@@ -6,7 +6,7 @@
 #    By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/25 14:44:10 by ddordain          #+#    #+#              #
-#    Updated: 2022/01/10 22:41:59 by ddordain         ###   ########.fr        #
+#    Updated: 2022/03/29 13:38:26 by ddordain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,7 +81,8 @@ SRCS_STR =	ft_split.c \
 			ft_strnstr.c \
 			ft_strrchr.c \
 			ft_strtrim.c \
-			ft_substr.c
+			ft_substr.c \
+			ft_strcmp.c
 
 SRCS_MEM =	ft_bzero.c \
 			ft_calloc.c \
