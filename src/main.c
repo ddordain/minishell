@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 15:00:52 by pwu               #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2022/03/28 17:33:38 by ddordain         ###   ########.fr       */
+=======
+/*   Updated: 2022/03/29 12:26:58 by pwu              ###   ########.fr       */
+>>>>>>> hotfix
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +80,17 @@ void	debug_print_env(t_dlist *env_start)
 	}
 }
 
-static void	minishell_init(t_minishell *sh)
+static int	minishell_init(t_minishell *sh, char **envp)
 {
 	ft_dlist_init(&sh->dl_cmd, free);
 	ft_dlist_init(&sh->dl_env, env_var_destroy);
 	ft_dlist_init(&sh->dl_tok, tok_destroy);
+	if (set_env(&sh->dl_env, envp) != 0)
+	{
+		ft_dlist_destroy(&sh->dl_env);
+		return (-1);
+	}
+	return (0);
 }
 
 int	main(int ac, char **av, char **envp)
@@ -90,12 +100,8 @@ int	main(int ac, char **av, char **envp)
 
 	(void)ac;
 	(void)av;
-	minishell_init(&sh);
-	if (set_env(&sh.dl_env, envp) != 0)
-	{
-		ft_dlist_destroy(&sh.dl_env);
+	if (!isatty(0) || !isatty(1) || minishell_init(&sh, envp) != 0)
 		return (EXIT_FAILURE);
-	}
 	debug_print_env(&sh.dl_env);
 	while (1)
 	{

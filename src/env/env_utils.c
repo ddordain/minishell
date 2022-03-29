@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 13:09:44 by ddordain          #+#    #+#             */
-/*   Updated: 2022/03/28 15:17:39 by ddordain         ###   ########.fr       */
+/*   Updated: 2022/03/28 16:03:01 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	ft_strcmp(char *s1, char *s2)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (s1[i] == s2[i] && s1[i] != '\0' && s2[i] != '\0')
@@ -70,8 +70,8 @@ char	*get_env_value(t_dlist *dl_env, char *name)
 
 int	set_env_value(t_dlist *dl_env, char *name, char *new_value)
 {
-	t_env *address_env;
-	char *address_new_value;
+	t_env	*address_env;
+	char	*address_new_value;
 
 	address_env = get_env_elem(dl_env, name);
 	address_new_value = ft_strdup(new_value);
