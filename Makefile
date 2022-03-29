@@ -12,7 +12,8 @@ SRC =	src/main.c\
 		src/error/error.c\
 		src/parsing/parse.c\
 		src/parsing/expansion.c\
-		src/parsing/expansion_utils.c\
+		src/parsing/parse_utils.c\
+		src/parsing/quote_remove.c\
 		src/builtin/cd.c\
 
 INC =	inc/minishell.h

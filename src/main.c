@@ -6,11 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 15:00:52 by pwu               #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2022/03/28 17:33:38 by ddordain         ###   ########.fr       */
-=======
-/*   Updated: 2022/03/29 12:26:58 by pwu              ###   ########.fr       */
->>>>>>> hotfix
+/*   Updated: 2022/03/29 13:08:51 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +40,7 @@ void	debug_print_tok(t_dlist *tokens)
 	}
 }
 
-int	minishell_start(t_line *cmdline, t_minishell *sh)
+static int	minishell_start(t_line *cmdline, t_minishell *sh)
 {
 	int	err_code;
 
