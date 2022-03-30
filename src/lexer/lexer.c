@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 16:14:22 by pwu               #+#    #+#             */
-/*   Updated: 2022/03/29 13:09:03 by pwu              ###   ########.fr       */
+/*   Updated: 2022/03/30 14:07:18 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	check_format(const t_elem *cur_elem, const t_tok *cur_tok)
 	if ((cur_tok->type == PIPE
 			&& (!cur_elem->prev || (next_tok->type == EOF_TOK
 					|| next_tok->type == PIPE)))
-		|| ((cur_tok->type >= 3 && cur_tok->type <= 6)
+		|| ((cur_tok->type >= REDIR_IN && cur_tok->type <= REDIR_APPEND)
 			&& next_tok->type != WORD))
 	{
 		write(2, "Syntax error: format\n", 21);
@@ -47,7 +47,6 @@ static int	lex_error(t_tok *token, const char *message)
 		write(2, message, ft_strlen(message));
 		return (1);
 	}
-	perror("minishell");
 	return (-1);
 }
 
