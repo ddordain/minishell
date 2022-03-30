@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 14:52:05 by pwu               #+#    #+#             */
-/*   Updated: 2022/03/28 15:45:49 by pwu              ###   ########.fr       */
+/*   Updated: 2022/03/30 15:04:45 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,13 +74,16 @@ static char	*expand_one(char *src, const t_dlist *env, const int start)
 	return (res);
 }
 
-int	var_expand(t_tok *cur_tok, const t_dlist *env)
+int	var_expand(t_tok *cur_tok, const t_dlist *env, t_elem *prev_elem)
 {
-	int	i;
-	int	quote;
+	int		i;
+	int		quote;
+	t_tok	*prev_tok;
 
 	i = -1;
-	if (cur_tok->type != WORD)
+	if (prev_elem)
+		prev_tok = prev_elem->data;
+	if (cur_tok->type != WORD || (prev_elem && prev_tok->type == REDIR_HEREDOC))
 		return (0);
 	quote = 0;
 	while (cur_tok->content[++i])

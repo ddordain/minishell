@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 12:43:10 by pwu               #+#    #+#             */
-/*   Updated: 2022/03/29 15:07:22 by pwu              ###   ########.fr       */
+/*   Updated: 2022/03/30 15:16:28 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,11 @@
 # define DQUOTE 2			// "
 # define REDIR_IN 3			// <
 # define REDIR_TRUNC 4		// >
-# define REDIR_HEREDOC 5	// <<
-# define REDIR_APPEND 6		// >>
-# define PIPE 7				// |
-# define INVAL_OP 8
+# define REDIR_HEREDOC 5	// << limiter
+# define REDIR_HEREDOC_RAW 6// << 'limiter'
+# define REDIR_APPEND 7		// >>
+# define PIPE 8				// |
+# define INVAL_OP 9
 
 /* structs */
 
@@ -127,7 +128,10 @@ void	perror_exit(const char *str, t_minishell *sh);
 int		parse(t_dlist *tokens, const t_dlist *env);
 
 /*	*	* expansion */
-int		var_expand(t_tok *cur_tok, const t_dlist *env);
+int		var_expand(t_tok *cur_tok, const t_dlist *env, t_elem *prev_elem);
+
+/*	*	* heredoc */
+void	check_heredoc(t_tok *cur_tok, t_elem *prev_elem);
 
 /*	*	* quote removal */
 int		quote_remove(t_tok *cur_tok);

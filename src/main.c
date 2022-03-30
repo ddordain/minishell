@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 15:00:52 by pwu               #+#    #+#             */
-/*   Updated: 2022/03/29 13:08:51 by pwu              ###   ########.fr       */
+/*   Updated: 2022/03/30 12:59:16 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,10 @@ static int	minishell_start(t_line *cmdline, t_minishell *sh)
 		ft_dlist_destroy(&sh->dl_tok);
 		return (err_code);
 	}
-	err_code = parse(&sh->dl_tok, &sh->dl_env);
-	if (err_code != 0)
+	if (parse(&sh->dl_tok, &sh->dl_env) != 0)
 	{
 		ft_dlist_destroy(&sh->dl_tok);
-		return (err_code);
+		return (-1);
 	}
 	debug_print_tok(&sh->dl_tok);
 	ft_dlist_destroy(&sh->dl_tok);
