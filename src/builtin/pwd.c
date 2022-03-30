@@ -6,7 +6,7 @@
 /*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 17:34:48 by ddordain          #+#    #+#             */
-/*   Updated: 2022/03/29 13:24:44 by ddordain         ###   ########.fr       */
+/*   Updated: 2022/03/30 13:51:03 by ddordain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void builtin_pwd(void)
 	char*	str;
 
 	str = get_pwd();
-	if (str == NULL);
+	if (str == NULL)
 		return (perror("pwd"));
 	ft_putstr_fd(str, 1);
 	free(str);
