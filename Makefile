@@ -7,7 +7,6 @@ SRC =	src/main.c\
 		src/env/env_utils.c\
 		src/lexer/lexer.c\
 		src/lexer/lexer_utils.c\
-		src/lexer/quote_check.c\
 		src/lexer/token_utils.c\
 		src/error/error.c\
 		src/parsing/parse.c\
@@ -15,7 +14,12 @@ SRC =	src/main.c\
 		src/parsing/parse_utils.c\
 		src/parsing/quote_remove.c\
 		src/parsing/check_heredoc.c\
+		src/parsing/command.c\
+		src/parsing/cmd_add.c\
+		src/parsing/cmd_redir.c\
+		src/parsing/cmd_av.c\
 		src/builtin/cd.c\
+		src/debug.c\
 
 INC =	inc/minishell.h
 

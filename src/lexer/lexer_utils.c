@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 11:20:15 by pwu               #+#    #+#             */
-/*   Updated: 2022/03/21 17:03:56 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/01 14:00:37 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,31 @@ int	find_operator(const char *line, const int start)
 	if (!is_operator(line[i]))
 		return (type);
 	return (INVAL_OP);
+}
+
+int	quote_check(const char *line)
+{
+	int	i;
+	int	quote_state;
+
+	i = -1;
+	quote_state = 0;
+	while (line[++i])
+	{
+		if (line[i] == '\'')
+		{
+			if (quote_state == 0)
+				quote_state = SQUOTE;
+			else if (quote_state == SQUOTE)
+				quote_state = 0;
+		}
+		if (line[i] == '"')
+		{
+			if (quote_state == 0)
+				quote_state = DQUOTE;
+			else if (quote_state == DQUOTE)
+				quote_state = 0;
+		}
+	}
+	return (quote_state);
 }

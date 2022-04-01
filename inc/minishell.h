@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 12:43:10 by pwu               #+#    #+#             */
-/*   Updated: 2022/03/30 15:16:28 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/01 14:02:42 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ typedef struct s_command
 	int			ac;
 	char		**av;
 	char		**envp;
+	t_dlist		redir;
 	int			fdin;
 	int			fdout;
 	int			pipein;
@@ -87,6 +88,12 @@ typedef struct s_env
 	char		*value;
 	t_minishell	*sh;
 }	t_env;
+
+typedef struct s_redir
+{
+	int		type;
+	char	*var;
+}	t_redir;
 
 /* global */
 
@@ -112,8 +119,6 @@ bool	is_space(const char c);
 bool	is_operator(const char c);
 bool	is_type(const int type, const char c, int *quote_state);
 int		find_operator(const char *line, const int start);
-
-/*	*	* quote check */
 int		quote_check(const char *line);
 
 /*	*	* token utils*/
@@ -142,7 +147,27 @@ void	add_str(char *dst, const char *var, int *pos);
 int		quote_state(const char c, int quote);
 bool	is_quote(const char c, int *quote);
 
+/*	*	* cmd making */
+int		make_cmds(t_dlist *tokens, t_dlist *commands);
+void	cmd_destroy(void *data);
+int		cmd_add(t_dlist *tokens, t_dlist *commands);
+
+/*	*	* cmd redir */
+void	redir_destroy(void *data);
+int		redir_add(t_command *cmd, t_dlist *tokens);
+
+/*	*	* cmd av */
+int		av_add(t_command *cmd, t_dlist *tokens);
+void	av_destroy(char **av);
+
 /*	* built-in */
 void	builtin_cd(t_dlist *dl_env, char *path);
+
+/*	* debug */
+void	debug_print_env(t_dlist *env_start);
+void	debug_print_tok(t_dlist *tokens);
+void	debug_print_redir(t_command *cmd);
+void	debug_print_av(t_command *cmd);
+void	debug_print_cmd(t_dlist *cmds);
 
 #endif		// MINISHELL_H
