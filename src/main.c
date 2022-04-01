@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 15:00:52 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/01 13:49:22 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/01 15:46:35 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,11 @@ static int	minishell_start(t_line *cmdline, t_minishell *sh)
 		ft_dlist_destroy(&sh->dl_tok);
 		return (-1);
 	}
-	err_code = make_cmds(&sh->dl_tok, &sh->dl_cmd);
+	if (make_cmds(&sh->dl_tok, &sh->dl_cmd) != 0)
+	{
+		ft_dlist_destroy(&sh->dl_tok);
+		return (-1);
+	}
 	debug_print_tok(&sh->dl_tok);
 	debug_print_cmd(&sh->dl_cmd);
 	ft_dlist_destroy(&sh->dl_tok);
@@ -77,7 +81,7 @@ int	main(int ac, char **av, char **envp)
 		if (!cmdline.line)
 			break ;
 		if (minishell_start(&cmdline, &sh) == -1)
-			perror_exit(NULL, &sh);
+			perror_exit(NULL, &sh, &cmdline);
 		free(cmdline.line);
 	}
 	ft_dlist_destroy(&sh.dl_env);

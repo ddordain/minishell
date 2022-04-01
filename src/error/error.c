@@ -6,13 +6,13 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 12:00:19 by ddordain          #+#    #+#             */
-/*   Updated: 2022/03/25 15:01:59 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/01 15:41:44 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void	perror_exit(const char *str, t_minishell *sh)
+void	perror_exit(const char *str, t_minishell *sh, t_line *cmdline)
 {
 	if (str == NULL)
 		perror("minishell");
@@ -22,5 +22,6 @@ void	perror_exit(const char *str, t_minishell *sh)
 	ft_dlist_destroy(&sh->dl_env);
 	ft_dlist_destroy(&sh->dl_cmd);
 	rl_clear_history();
+	free(cmdline->line);
 	exit(EXIT_FAILURE);
 }

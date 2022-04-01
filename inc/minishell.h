@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 12:43:10 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/01 14:02:42 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/01 16:02:26 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ void	tok_destroy(void *data);
 char	*get_tok_content(t_line *cmdline, const int tok_type);
 
 /*	* error utils */
-void	perror_exit(const char *str, t_minishell *sh);
+void	perror_exit(const char *str, t_minishell *sh, t_line *cmdline);
 
 /*	* parsing */
 /*	*	* parser master */

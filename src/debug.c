@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 13:34:47 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/01 13:56:57 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/01 15:09:46 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	debug_print_env(t_dlist *env_start)
 	t_env	*cur_data;
 
 	cur_elem = env_start->head;
-	printf("environment variables: %d\n", env_start->size);
+	printf("environment variables: %d\n\n", env_start->size);
 	while (cur_elem != NULL)
 	{
 		cur_data = cur_elem->data;
@@ -40,6 +40,7 @@ void	debug_print_tok(t_dlist *tokens)
 		printf("type: %d content: [%s]\n", cur_data->type, cur_data->content);
 		cur_elem = cur_elem->next;
 	}
+	printf("\n");
 }
 
 void	debug_print_redir(t_command *cmd)
@@ -70,12 +71,13 @@ void	debug_print_cmd(t_dlist *cmds)
 	t_command	*cur_cmd;
 
 	cur_elem = cmds->head;
-	printf("cmds: %d\n", cmds->size);
+	printf("cmds: %d\n\n", cmds->size);
 	while (cur_elem != NULL)
 	{
 		cur_cmd = cur_elem->data;
 		debug_print_redir(cur_cmd);
 		debug_print_av(cur_cmd);
 		cur_elem = cur_elem->next;
+		printf("\n");
 	}
 }
