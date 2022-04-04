@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 15:00:52 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/04 13:56:12 by ddordain         ###   ########.fr       */
+/*   Updated: 2022/04/04 14:38:59 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,10 @@ static int	minishell_start(t_line *cmdline, t_minishell *sh)
 		return (err_code);
 	}
 	if (parse(&sh->dl_tok, &sh->dl_env) != 0)
-	{
-		ft_dlist_destroy(&sh->dl_tok);
 		return (-1);
-	}
-	if (make_cmds(&sh->dl_tok, &sh->dl_cmd) != 0)
-	{
-		ft_dlist_destroy(&sh->dl_tok);
-		return (-1);
-	}
 	debug_print_tok(&sh->dl_tok);
+	if (make_cmds(&sh->dl_tok, &sh->dl_cmd) != 0)
+		return (-1);
 	debug_print_cmd(&sh->dl_cmd);
 	ft_dlist_destroy(&sh->dl_tok);
 	ft_dlist_destroy(&sh->dl_cmd);
