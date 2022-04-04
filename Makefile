@@ -34,7 +34,7 @@ LIB_DIR		=	libft/
 
 CC =	gcc
 
-CF =	-Wall -Wextra -Werror# -fsanitize=address -g3
+CF =	-Wall -Wextra -Werror -ggdb# -fsanitize=address -g3
 
 CF2 =	-o $(NAME) -lreadline
 

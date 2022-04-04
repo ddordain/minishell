@@ -6,7 +6,7 @@
 /*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 13:09:44 by ddordain          #+#    #+#             */
-/*   Updated: 2022/03/29 16:59:47 by ddordain         ###   ########.fr       */
+/*   Updated: 2022/04/04 12:52:05 by ddordain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ int	set_env_value(t_dlist *dl_env, char *name, char *new_value)
 	address_new_value = ft_strdup(new_value);
 	if (address_new_value == NULL)
 		return (EXIT_FAILURE);
-	free(address_env->value);
+	if (address_env->value != NULL)	
+		free(address_env->value);
 	address_env->value = address_new_value;
 	return (EXIT_SUCCESS);
 }

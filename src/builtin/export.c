@@ -6,7 +6,7 @@
 /*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 13:23:00 by ddordain          #+#    #+#             */
-/*   Updated: 2022/04/04 10:39:40 by ddordain         ###   ########.fr       */
+/*   Updated: 2022/04/04 12:59:46 by ddordain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,13 @@ static int	check_name(t_dlist *dl_env, char *buffer_name)
 	name = ft_strdup(buffer_name);
 	if (name == NULL)
 		return (EXIT_FAILURE);
-	data->name = name;
 	if (ft_dlist_ins_next(dl_env, dl_env->tail, data) == -1)
 		return (EXIT_FAILURE);
+	else 
+	{
+		data->name = name;
+		data->value = NULL;
+	}
 	return (EXIT_SUCCESS);
 }
 
@@ -119,7 +123,6 @@ void	builtin_export(t_dlist *dl_env, int ac, char **av)
 		return ;
 	while (av[++i] != NULL)
 	{
-		printf("%d\n", is_valid_env_name(av[i]));
 		if (is_valid_env_name(av[i]) == 1)
 			export_and_set(dl_env, av[i]);
 		else if (is_valid_env_name(av[i]) == 0)
