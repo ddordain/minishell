@@ -1,32 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd.c                                               :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/28 16:22:57 by ddordain          #+#    #+#             */
-/*   Updated: 2022/04/04 15:09:15 by ddordain         ###   ########.fr       */
+/*   Created: 2022/04/02 14:01:03 by ddordain          #+#    #+#             */
+/*   Updated: 2022/04/04 15:09:18 by ddordain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void	builtin_cd(t_dlist *dl_env, char *path)
+void	builtin_env(t_dlist *dl_env)
 {
-	char	*pwd;
-	char	*old_pwd;
-	char	*tmp;
+	t_elem	*cur_elem;
+	t_env	*cur_data;
 
-	if (path == NULL)
-		return ;
-	if (access(path, F_OK | X_OK) == -1)
-		return (perror("cd"));
-	tmp = get_env_value(dl_env, "PWD");
-	if (chdir(path) == -1)
-		return (perror("cd"));
-	old_pwd = tmp;
-	pwd = path;
-	set_env_value(dl_env, "OLDPWD", old_pwd);
-	set_env_value(dl_env, "PWD", pwd);
+	cur_elem = dl_env->head;
+	while (cur_elem != NULL)
+	{
+		cur_data = cur_elem->data;
+		printf("%s = %s\n", cur_data->name, cur_data->value);
+		cur_elem = cur_elem->next;
+	}
 }

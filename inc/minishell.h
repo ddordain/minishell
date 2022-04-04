@@ -6,7 +6,7 @@
 /*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 12:43:10 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/04 13:13:33 by ddordain         ###   ########.fr       */
+/*   Updated: 2022/04/04 14:54:33 by ddordain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,8 +163,8 @@ void	av_destroy(char **av);
 /*	* built-in */
 void	builtin_cd(t_dlist *dl_env, char *path);
 void	builtin_export(t_dlist *dl_env, int ac, char **av);
-void    builtin_unset(t_dlist *dl_env, int ac, char **av);
-
+void	builtin_unset(t_dlist *dl_env, int ac, char **av);
+void	builtin_exit(t_minishell *sh, t_line *cmdline);
 
 /*	* debug */
 void	debug_print_env(t_dlist *env_start);
