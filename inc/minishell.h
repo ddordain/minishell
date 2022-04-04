@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 12:43:10 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/01 16:02:26 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/04 10:33:18 by ddordain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,6 +162,7 @@ void	av_destroy(char **av);
 
 /*	* built-in */
 void	builtin_cd(t_dlist *dl_env, char *path);
+void	builtin_export(t_dlist *dl_env, int ac, char **av);
 
 /*	* debug */
 void	debug_print_env(t_dlist *env_start);
