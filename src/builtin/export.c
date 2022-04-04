@@ -6,7 +6,7 @@
 /*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 13:23:00 by ddordain          #+#    #+#             */
-/*   Updated: 2022/04/04 12:59:46 by ddordain         ###   ########.fr       */
+/*   Updated: 2022/04/04 13:12:38 by ddordain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	check_name(t_dlist *dl_env, char *buffer_name)
 	t_env	*data;
 	char	*name;
 
-	if (get_env_elem(dl_env, buffer_name) != NULL)
+	if (get_env_data(dl_env, buffer_name) != NULL)
 		return (EXIT_SUCCESS);
 	data = (t_env *)malloc(sizeof(t_env));
 	if (data == NULL)
@@ -175,7 +175,7 @@ static int	export_value(t_dlist *dl_env, char *str)
 	if (buffer_value == NULL)
 		return (EXIT_FAILURE);
 	ft_memcpy(buffer_value, str + start, buffer_size);
-	elem = get_env_elem(dl_env, );
+	elem = get_env_data(dl_env, );
 	if (set_env_value(dl_env, elem->name, buffer_value) == EXIT_FAILURE)
 	{
 		free(buffer_value);

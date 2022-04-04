@@ -6,7 +6,7 @@
 /*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 12:43:10 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/04 10:33:18 by ddordain         ###   ########.fr       */
+/*   Updated: 2022/04/04 13:13:33 by ddordain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,8 @@ extern unsigned char	g_exit_status;
 
 /*	* env */
 int		set_env(t_dlist *env, char **envp);
-
-t_env	*get_env_elem(t_dlist *dl_env, char *name);
+t_elem	*get_env_elem(t_dlist *dl_env, char *name);
+t_env	*get_env_data(t_dlist *dl_env, char *name);
 char	*get_env_value(t_dlist *dl_env, char *name);
 int		set_env_value(t_dlist *dl_env, char *name, char *new_value);
 int		env_var_add(t_dlist *env, char *to_add);
@@ -163,6 +163,8 @@ void	av_destroy(char **av);
 /*	* built-in */
 void	builtin_cd(t_dlist *dl_env, char *path);
 void	builtin_export(t_dlist *dl_env, int ac, char **av);
+void    builtin_unset(t_dlist *dl_env, int ac, char **av);
+
 
 /*	* debug */
 void	debug_print_env(t_dlist *env_start);

@@ -20,6 +20,7 @@ SRC =	src/main.c\
 		src/parsing/cmd_av.c\
 		src/builtin/cd.c\
 		src/builtin/export.c\
+		src/builtin/unset.c\
 		src/debug.c\
 
 INC =	inc/minishell.h
