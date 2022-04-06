@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 13:23:00 by ddordain          #+#    #+#             */
-/*   Updated: 2022/04/04 15:09:20 by ddordain         ###   ########.fr       */
+/*   Updated: 2022/04/06 13:23:26 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,29 +32,6 @@ static int	is_valid_env_name(char *name)
 		return (0);
 	else
 		return (1);
-}
-
-static int	check_name(t_dlist *dl_env, char *buffer_name)
-{
-	t_env	*data;
-	char	*name;
-
-	if (get_env_data(dl_env, buffer_name) != NULL)
-		return (EXIT_SUCCESS);
-	data = (t_env *)malloc(sizeof(t_env));
-	if (data == NULL)
-		return (EXIT_FAILURE);
-	name = ft_strdup(buffer_name);
-	if (name == NULL)
-		return (EXIT_FAILURE);
-	if (ft_dlist_ins_next(dl_env, dl_env->tail, data) == -1)
-		return (EXIT_FAILURE);
-	else 
-	{
-		data->name = name;
-		data->value = NULL;
-	}
-	return (EXIT_SUCCESS);
 }
 
 static char *malloc_buffer_value(char *str)

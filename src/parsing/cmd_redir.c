@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/30 17:06:07 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/01 12:47:09 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/06 18:29:01 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,29 +25,27 @@ void	redir_destroy(void *data)
 	}
 }
 
-static int	redir_error(t_redir *redir)
-{
-	redir_destroy(redir);
-	return (-1);
-}
+// static int	redir_error(t_redir *redir)
+// {
+// 	redir_destroy(redir);
+// 	return (-1);
+// }
 
-static int	redir_add_one(t_command *cmd, t_tok *cur_tok, t_tok *next_tok)
+static int	redir_add_one(t_command *cmd, t_tok *cur_tok, t_tok *next_tok, t_minishell *sh)
 {
 	t_redir	*redir;
 
-	redir = malloc(sizeof(t_redir));
-	if (!redir)
-		return (redir_error(NULL));
-	redir->var = ft_strdup(next_tok->content);
-	if (!redir->var)
-		return (redir_error(redir));
-	redir->type = cur_tok->type;
+	redir = xmalloc(sizeof(t_redir), sh);
 	if (ft_dlist_ins_next(&cmd->redir, ft_dlist_tail(&cmd->redir), redir) == -1)
-		return (redir_error(redir));
+		perror_exit("Malloc failure", sh);
+	redir->var = ymalloc(ft_strlen(next_tok->content) + 1, sh);
+	ft_memcpy(redir->var, next_tok->content, ft_strlen(next_tok->content));
+	redir->var[ft_strlen(next_tok->content)] = 0;
+	redir->type = cur_tok->type;
 	return (0);
 }
 
-int	redir_add(t_command *cmd, t_dlist *tokens)
+int	redir_add(t_command *cmd, t_dlist *tokens, t_minishell *sh)
 {
 	t_elem	*cur_elem;
 	t_elem	*next_elem;
@@ -60,7 +58,7 @@ int	redir_add(t_command *cmd, t_dlist *tokens)
 	{
 		if (cur_tok->type >= REDIR_IN && cur_tok->type <= REDIR_APPEND)
 		{
-			if (redir_add_one(cmd, cur_tok, cur_elem->next->data) != 0)
+			if (redir_add_one(cmd, cur_tok, cur_elem->next->data, sh) != 0)
 				return (-1);
 			next_elem = cur_elem->next;
 			next_tok = next_elem->data;

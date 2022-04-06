@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 12:43:10 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/05 14:22:31 by ddordain         ###   ########.fr       */
+/*   Updated: 2022/04/06 18:16:53 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 
 //prompt
 # define PROMPT "\033[1;33mminishell$>\033[0m"
-
+#define malloc rngalloc
 //elements
 # define NUL_TOK -2
 # define EOF_TOK -1
@@ -60,6 +60,8 @@ typedef struct s_minishell
 	t_dlist	dl_cmd;
 	t_dlist	dl_tok;
 	t_dlist	dl_env;
+	t_dlist	dl_malloc;
+	t_line	cmdline;
 }	t_minishell;
 
 typedef struct s_command
@@ -70,8 +72,8 @@ typedef struct s_command
 	t_dlist		redir;
 	int			fdin;
 	int			fdout;
-	int			pipein;
-	int			pipeout;
+	int			pipefd[2];
+	pid_t		pid;
 	t_minishell	*sh;
 }	t_command;
 
@@ -79,14 +81,12 @@ typedef struct s_tok
 {
 	char		*content;
 	int			type;
-	t_minishell	*sh;
 }	t_tok;
 
 typedef struct s_env
 {
 	char		*name;
 	char		*value;
-	t_minishell	*sh;
 }	t_env;
 
 typedef struct s_redir
@@ -102,17 +102,19 @@ extern unsigned char	g_exit_status;
 /* functions */
 
 /*	* env */
-int		set_env(t_dlist *env, char **envp);
+int		set_env(t_dlist *env, char **envp, t_minishell *sh);
 t_elem	*get_env_elem(t_dlist *dl_env, char *name);
 t_env	*get_env_data(t_dlist *dl_env, char *name);
 char	*get_env_value(t_dlist *dl_env, char *name);
 int		set_env_value(t_dlist *dl_env, char *name, char *new_value);
-int		env_var_add(t_dlist *env, char *to_add);
+int		check_name(t_dlist *dl_env, char *buffer_name, t_minishell *sh);
+
+int		env_var_add(t_dlist *env, char *to_add, t_minishell *sh);
 void	env_var_destroy(void *data);
 
 /*	* lexer */
 /*	*	* lexer master */
-int		lex(t_line *cmdline, t_dlist *tokens);
+int		lex(t_line *cmdline, t_dlist *tokens, t_minishell *sh);
 
 /*	*	* lexer utils */
 bool	is_space(const char c);
@@ -123,23 +125,25 @@ int		quote_check(const char *line);
 
 /*	*	* token utils*/
 void	tok_destroy(void *data);
-char	*get_tok_content(t_line *cmdline, const int tok_type);
+char	*get_tok_content(t_line *cmdline, const int tok_type, t_minishell *sh);
 
 /*	* error utils */
-void	perror_exit(const char *str, t_minishell *sh, t_line *cmdline);
+void	perror_exit(const char *str, t_minishell *sh);
+void	*xmalloc(size_t bytes, t_minishell *sh);
+void	*ymalloc(size_t bytes, t_minishell *sh);
 
 /*	* parsing */
 /*	*	* parser master */
-int		parse(t_dlist *tokens, const t_dlist *env);
+int		parse(t_dlist *tokens, const t_dlist *env, t_minishell *sh);
 
 /*	*	* expansion */
-int		var_expand(t_tok *cur_tok, const t_dlist *env, t_elem *prev_elem);
+int		var_expand(t_tok *cur_tok, const t_dlist *env, t_elem *prev_elem, t_minishell *sh);
 
 /*	*	* heredoc */
 void	check_heredoc(t_tok *cur_tok, t_elem *prev_elem);
 
 /*	*	* quote removal */
-int		quote_remove(t_tok *cur_tok);
+int		quote_remove(t_tok *cur_tok, t_minishell *sh);
 
 /*	*	* parse utils */
 int		ft_len(const char *s);
@@ -148,20 +152,20 @@ int		quote_state(const char c, int quote);
 bool	is_quote(const char c, int *quote);
 
 /*	*	* cmd making */
-int		make_cmds(t_dlist *tokens, t_dlist *commands);
+int		make_cmds(t_dlist *tokens, t_dlist *commands, t_minishell *sh);
 void	cmd_destroy(void *data);
-int		cmd_add(t_dlist *tokens, t_dlist *commands);
+int		cmd_add(t_dlist *tokens, t_dlist *commands, t_minishell *sh);
 
 /*	*	* cmd redir */
 void	redir_destroy(void *data);
-int		redir_add(t_command *cmd, t_dlist *tokens);
+int		redir_add(t_command *cmd, t_dlist *tokens, t_minishell *sh);
 
 /*	*	* cmd av */
-int		av_add(t_command *cmd, t_dlist *tokens);
+int		av_add(t_command *cmd, t_dlist *tokens, t_minishell *sh);
 void	av_destroy(char **av);
 
 /*	* built-in */
-void	builtin_cd(t_dlist *dl_env, char *path);
+void	builtin_cd(t_dlist *dl_env, t_command *cmd);
 void	builtin_export(t_dlist *dl_env, int ac, char **av);
 void	builtin_unset(t_dlist *dl_env, int ac, char **av);
 void	builtin_exit(t_minishell *sh, t_line *cmdline);
@@ -173,5 +177,6 @@ void	debug_print_tok(t_dlist *tokens);
 void	debug_print_redir(t_command *cmd);
 void	debug_print_av(t_command *cmd);
 void	debug_print_cmd(t_dlist *cmds);
+void	*rngalloc(size_t size);
 
 #endif		// MINISHELL_H

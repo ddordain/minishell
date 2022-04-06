@@ -9,6 +9,7 @@ SRC =	src/main.c\
 		src/lexer/lexer_utils.c\
 		src/lexer/token_utils.c\
 		src/error/error.c\
+		src/error/safe_malloc.c\
 		src/parsing/parse.c\
 		src/parsing/expansion.c\
 		src/parsing/parse_utils.c\
@@ -19,10 +20,10 @@ SRC =	src/main.c\
 		src/parsing/cmd_redir.c\
 		src/parsing/cmd_av.c\
 		src/builtin/cd.c\
-		src/builtin/export.c\
 		src/builtin/unset.c\
 		src/builtin/echo.c\
 		src/debug.c\
+		test/rngalloc.c
 
 INC =	inc/minishell.h
 
@@ -62,4 +63,13 @@ fclean:	clean
 
 re:		fclean all
 
-.PHONY:	all clean fclean re bonus
+test: all
+	valgrind \
+	--leak-check=full \
+	--track-origins=yes \
+	--show-leak-kinds=all \
+	--show-reachable=yes \
+	--suppressions=./.readline.supp \
+	./minishell
+
+.PHONY:	all clean fclean re bonus test

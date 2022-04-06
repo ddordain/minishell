@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 13:05:41 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/01 13:22:37 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/06 17:24:19 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@ void	av_destroy(char **av)
 	}
 }
 
-static int	av_error(char **av)
-{
-	av_destroy(av);
-	return (-1);
-}
+// static int	av_error(char **av)
+// {
+// 	av_destroy(av);
+// 	return (-1);
+// }
 
 static int	arg_count(t_dlist *tokens)
 {
@@ -53,14 +53,12 @@ static int	arg_count(t_dlist *tokens)
 	return (i);
 }
 
-static char	**av_alloc(size_t size)
+static char	**av_alloc(size_t size, t_minishell *sh)
 {
 	char	**res;
 	int		i;
 
-	res = malloc(sizeof(char *) * size);
-	if (!res)
-		return (NULL);
+	res = ymalloc(sizeof(char *) * size, sh);
 	i = 0;
 	while ((size_t)i < size)
 	{
@@ -70,7 +68,7 @@ static char	**av_alloc(size_t size)
 	return (res);
 }
 
-int	av_add(t_command *cmd, t_dlist *tokens)
+int	av_add(t_command *cmd, t_dlist *tokens, t_minishell *sh)
 {
 	t_elem	*cur_elem;
 	t_tok	*cur_tok;
@@ -80,16 +78,14 @@ int	av_add(t_command *cmd, t_dlist *tokens)
 	cur_tok = cur_elem->data;
 	cmd->ac = arg_count(tokens);
 	i = 0;
-	cmd->av = av_alloc(cmd->ac + 1);
-	if (!cmd->av)
-		return (-1);
+	cmd->av = av_alloc(cmd->ac + 1, sh);
 	while (cur_tok->type != EOF_TOK && cur_tok->type != PIPE)
 	{
 		if (cur_tok->type == WORD)
 		{
-			cmd->av[i] = ft_strdup(cur_tok->content);
-			if (!cmd->av[i])
-				return (av_error(cmd->av));
+			cmd->av[i] = ymalloc(ft_strlen(cur_tok->content) + 1, sh);
+			ft_memcpy(cmd->av[i], cur_tok->content, ft_strlen(cur_tok->content));
+			cmd->av[i][ft_strlen(cur_tok->content)] = 0;
 			++i;
 			cur_tok->type = NUL_TOK;
 		}

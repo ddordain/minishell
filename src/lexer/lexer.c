@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 16:14:22 by pwu               #+#    #+#             */
-/*   Updated: 2022/03/30 14:07:18 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/06 18:13:14 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,11 @@ static int	lex_error(t_tok *token, const char *message)
 	return (-1);
 }
 
-static int	token_add(t_dlist *tokens, t_line *cmdline)
+static int	token_add(t_dlist *tokens, t_line *cmdline, t_minishell *sh)
 {
 	t_tok	*token;
 
-	token = malloc(sizeof(t_tok));
-	if (!token)
-		return (lex_error(NULL, NULL));
+	token = xmalloc(sizeof(t_tok), sh);
 	token->content = NULL;
 	token->type = NUL_TOK;
 	while (is_space(cmdline->line[cmdline->i]))
@@ -64,15 +62,13 @@ static int	token_add(t_dlist *tokens, t_line *cmdline)
 	token->type = get_tok_type(cmdline);
 	if (token->type == INVAL_OP)
 		return (lex_error(token, "Syntax error: operator\n"));
-	token->content = get_tok_content(cmdline, token->type);
-	if (token->content == NULL)
-		return (lex_error(token, NULL));
 	if (ft_dlist_ins_next(tokens, ft_dlist_tail(tokens), token) == -1)
-		return (lex_error(token, NULL));
+		perror_exit("Malloc failure", sh);
+	token->content = get_tok_content(cmdline, token->type, sh);
 	return (0);
 }
 
-int	lex(t_line *cmdline, t_dlist *tokens)
+int	lex(t_line *cmdline, t_dlist *tokens, t_minishell *sh)
 {
 	t_elem	*cur_elem;
 	t_tok	*cur_tok;
@@ -80,14 +76,14 @@ int	lex(t_line *cmdline, t_dlist *tokens)
 
 	if (quote_check(cmdline->line))
 		return (lex_error(NULL, "Syntax error: quote\n"));
-	err_code = token_add(tokens, cmdline);
+	err_code = token_add(tokens, cmdline, sh);
 	if (err_code != 0)
 		return (err_code);
 	cur_elem = tokens->head;
 	cur_tok = cur_elem->data;
 	while (cur_tok->type != EOF_TOK)
 	{
-		err_code = token_add(tokens, cmdline);
+		err_code = token_add(tokens, cmdline, sh);
 		if (err_code != 0)
 			return (err_code);
 		if (check_format(cur_elem, cur_tok))

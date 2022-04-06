@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 16:33:25 by pwu               #+#    #+#             */
-/*   Updated: 2022/03/24 17:31:59 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/06 16:22:27 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,14 @@ static void	get_tok_end(const t_line *cmdline, const int tok_type,
 		*tok_end = *tok_end + 1;
 }
 
-char	*get_tok_content(t_line *cmdline, const int tok_type)
+char	*get_tok_content(t_line *cmdline, const int tok_type, t_minishell *sh)
 {
 	int		end;
 	char	*res;
 	int		j;
 
 	get_tok_end(cmdline, tok_type, &end);
-	res = malloc(sizeof(char) * (end - cmdline->i + 1));
-	if (!res)
-		return (NULL);
+	res = ymalloc(sizeof(char) * (end - cmdline->i + 1), sh);
 	j = 0;
 	while (cmdline->i < end)
 	{

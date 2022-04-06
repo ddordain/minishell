@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 16:15:56 by pwu               #+#    #+#             */
-/*   Updated: 2022/03/29 15:52:02 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/06 17:14:20 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	find_size(char *s)
 	return (size);
 }
 
-int	quote_remove(t_tok *cur_tok)
+int	quote_remove(t_tok *cur_tok, t_minishell *sh)
 {
 	int		size;
 	char	*res;
@@ -36,9 +36,7 @@ int	quote_remove(t_tok *cur_tok)
 	int		j;
 
 	size = find_size(cur_tok->content);
-	res = malloc(sizeof(char) * (size + 1));
-	if (!res)
-		return (-1);
+	res = ymalloc(sizeof(char) * (size + 1), sh);
 	i = -1;
 	j = -1;
 	quote = 0;
@@ -46,7 +44,6 @@ int	quote_remove(t_tok *cur_tok)
 		if (!is_quote(cur_tok->content[i], &quote))
 			res[++j] = cur_tok->content[i];
 	res[j + 1] = 0;
-	free(cur_tok->content);
 	cur_tok->content = res;
 	return (0);
 }
