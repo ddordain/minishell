@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 13:09:44 by ddordain          #+#    #+#             */
-/*   Updated: 2022/04/06 16:13:26 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/07 15:51:36 by ddordain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,36 +81,34 @@ char	*get_env_value(t_dlist *dl_env, char *name)
 	return (NULL);
 }
 
-int	set_env_value(t_dlist *dl_env, char *name, char *new_value)
+int	set_env_value(t_minishell *sh, char *name, char *new_value)
 {
 	t_env	*address_env;
 	char	*address_new_value;
 
-	address_env = get_env_data(dl_env, name);
-	address_new_value = ft_strdup(new_value);
-	if (address_new_value == NULL)
-		return (EXIT_FAILURE);
+	address_env = get_env_data(&sh->dl_env, name);
+	address_new_value = ft_strdup_ymalloc(new_value, sh);
 	if (address_env->value != NULL)
 		free(address_env->value);
 	address_env->value = address_new_value;
 	return (EXIT_SUCCESS);
 }
 
-int	check_name(t_dlist *dl_env, char *buffer_name, t_minishell *sh)
+int	check_name(char *buffer_name, t_minishell *sh)
 {
 	t_env	*data;
 	char	*name;
 
-	if (get_env_data(dl_env, buffer_name) != NULL)
+	if (get_env_data(&sh->dl_env, buffer_name) != NULL)
 		return (EXIT_SUCCESS);
-	data = (t_env *)xmalloc(sizeof(t_env), sh);
+	data = xmalloc(sizeof(t_env), sh);
 	if (data == NULL)
 		return (EXIT_FAILURE);
-	name = ft_strdup(buffer_name);
+	name = ft_strdup_ymalloc(buffer_name, sh);
 	if (name == NULL)
 		return (EXIT_FAILURE);
-	if (ft_dlist_ins_next(dl_env, dl_env->tail, data) == -1)
-		return (EXIT_FAILURE);
+	if (ft_dlist_ins_next(&sh->dl_env, ft_dlist_tail(&sh->dl_env), data) == -1)
+		perror_exit("Malloc failure", sh);
 	else
 	{
 		data->name = name;

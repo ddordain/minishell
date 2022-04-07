@@ -6,7 +6,7 @@
 /*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 14:53:33 by ddordain          #+#    #+#             */
-/*   Updated: 2021/12/28 15:26:14 by ddordain         ###   ########.fr       */
+/*   Updated: 2022/04/07 15:52:14 by ddordain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,6 @@
 
 int		ft_atoi(const char *str);
 char	*ft_itoa(int n);
+int		check_size(int n);
 
 #endif

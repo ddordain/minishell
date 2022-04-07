@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 12:43:10 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/07 14:11:04 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/07 16:13:16 by ddordain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 
 //prompt
 # define PROMPT "\033[1;33mminishell$>\033[0m"
-#define malloc rngalloc
+
 //elements
 # define NUL_TOK -2
 # define EOF_TOK -1
@@ -105,8 +105,8 @@ extern unsigned char	g_exit_status;
 t_elem	*get_env_elem(t_dlist *dl_env, char *name);
 t_env	*get_env_data(t_dlist *dl_env, char *name);
 char	*get_env_value(t_dlist *dl_env, char *name);
-int		set_env_value(t_dlist *dl_env, char *name, char *new_value);
-int		check_name(t_dlist *dl_env, char *buffer_name, t_minishell *sh);
+int		set_env_value(t_minishell *sh, char *name, char *new_value);
+int		check_name(char *buffer_name, t_minishell *sh);
 
 int		set_env(t_minishell *sh, char **envp);
 int		env_var_add(t_minishell *sh, char *to_add);
@@ -130,6 +130,8 @@ char	*get_tok_content(t_line *cmdline, const int tok_type, t_minishell *sh);
 void	perror_exit(const char *str, t_minishell *sh);
 void	*xmalloc(size_t bytes, t_minishell *sh);
 void	*ymalloc(size_t bytes, t_minishell *sh);
+char	*ft_strdup_ymalloc(const char *s, t_minishell *sh);
+char	*ft_itoa_ymalloc(t_minishell *sh, int n);
 
 /*	* parsing */
 /*	*	* parser master */
@@ -162,11 +164,11 @@ void	redir_add(t_command *cmd, t_minishell *sh);
 void	av_add(t_command *cmd, t_minishell *sh);
 
 /*	* built-in */
-void	builtin_cd(t_dlist *dl_env, t_command *cmd);
-void	builtin_export(t_dlist *dl_env, int ac, char **av);
+void	builtin_cd(t_minishell *sh, t_command *cmd);
+void	builtin_export(t_minishell *sh, t_command *cmd);
 void	builtin_unset(t_dlist *dl_env, int ac, char **av);
 void	builtin_exit(t_minishell *sh, t_line *cmdline);
-void	builtin_echo(int ac, char **av);
+void	builtin_echo(t_minishell *sh, t_command *cmd);
 
 /*	* debug */
 void	debug_print_env(t_dlist *env_start);

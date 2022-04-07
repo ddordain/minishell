@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 13:23:00 by ddordain          #+#    #+#             */
-/*   Updated: 2022/04/06 13:23:26 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/07 16:03:32 by ddordain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int	is_valid_env_name(char *name)
 		return (1);
 }
 
-static char *malloc_buffer_value(char *str)
+static char *malloc_buffer_value(char *str, t_minishell *sh)
 {
 	char	*buffer_value;
 	int		start;
@@ -49,13 +49,11 @@ static char *malloc_buffer_value(char *str)
 	start++;
 	while (str[start + buffer_size] != '\0')
 		buffer_size++;
-	buffer_value = (char *)ft_calloc(sizeof(char),buffer_size + 1);
-	if (buffer_value == NULL)
-		return (NULL);
+	buffer_value = (char *)ymalloc(sizeof(char) * (buffer_size + 1), sh);
 	return (ft_memcpy(buffer_value, str + start, buffer_size));
 }
 
-static char	*malloc_buffer_name(char *str)
+static char	*malloc_buffer_name(char *str, t_minishell *sh)
 {
 	char	*buffer_name;
 	int		buffer_size;
@@ -63,103 +61,44 @@ static char	*malloc_buffer_name(char *str)
 	buffer_size = 0;
 	while(str[buffer_size] != '\0' && str[buffer_size] != '=')
 		buffer_size++;
-	buffer_name = (char *)ft_calloc(sizeof(char), buffer_size + 1);
-	if (buffer_name == NULL)
-		return (NULL);
+	buffer_name = (char *)ymalloc(sizeof(char) * (buffer_size + 1), sh);
 	return (ft_memcpy(buffer_name, str, buffer_size));
 }
 
-static void	export_and_set(t_dlist *dl_env, char *str)
+static void	export_and_set(t_minishell *sh, char *str)
 {
 	char	*name;
 	char	*value;
 
-	name = malloc_buffer_name(str);
-	value = malloc_buffer_value(str);
-	check_name(dl_env, name);
-	set_env_value(dl_env, name, value);
+	name = malloc_buffer_name(str, sh);
+	value = malloc_buffer_value(str, sh);
+	check_name(name, sh);
+	set_env_value(sh, name, value);
 	free(name);
 	free(value);
 }
 
-static void export_not_set(t_dlist *dl_env, char *str)
+static void export_not_set(t_minishell *sh, char *str)
 {
 	char	*name;
 
-	name = malloc_buffer_name(str);
-	check_name(dl_env, name);
+	name = malloc_buffer_name(str, sh);
+	check_name(name, sh);
 	free(name);
 }
 
-void	builtin_export(t_dlist *dl_env, int ac, char **av)
+void	builtin_export(t_minishell *sh, t_command *cmd)
 {
 	int		i; 
 
 	i = 0;
-	if (ac == 1)
+	if (cmd->ac == 1)
 		return ;
-	while (av[++i] != NULL)
+	while (cmd->av[++i] != NULL)
 	{
-		if (is_valid_env_name(av[i]) == 1)
-			export_and_set(dl_env, av[i]);
-		else if (is_valid_env_name(av[i]) == 0)
-			export_not_set(dl_env, av[i]);
+		if (is_valid_env_name(cmd->av[i]) == 1)
+			export_and_set(sh, cmd->av[i]);
+		else if (is_valid_env_name(cmd->av[i]) == 0)
+			export_not_set(sh, cmd->av[i]);
 	}
 }
-
-
-
-/*
-static int	export_name(t_dlist *dl_env, char *str)
-{
-	char	*buffer_name;
-	int		buffer_size;
-
-	
-	buffer_size = 0;
-	while(str[buffer_size] != '\0' && str[buffer_size] != '=')
-		buffer_size++;
-	buffer_name = (char *)ft_calloc(sizeof(char), buffer_size + 1);
-	if (buffer_name == NULL)
-		return (EXIT_FAILURE);
-	ft_memcpy(buffer_name, str, buffer_size);
-	if (check_name(dl_env, buffer_name) == EXIT_FAILURE)
-	{
-		free(buffer_name);
-		return (EXIT_FAILURE);
-	}
-	free(buffer_name);
-	return (EXIT_SUCCESS);
-}
-
-static int	export_value(t_dlist *dl_env, char *str)
-{
-	char	*buffer_value;
-	int		start;
-	int		buffer_size;
-	t_env	*elem;
-
-	buffer_size = 0;
-	start = 0;
-	while(str[start] != '\0' && str[start] != '=')
-		start++;
-	if (str[start] == '\0')
-		return (EXIT_FAILURE);
-	start++;
-	while (str[start + buffer_size] != '\0')
-		buffer_size++;
-	buffer_value = (char *)ft_calloc(sizeof(char),buffer_size + 1);
-	if (buffer_value == NULL)
-		return (EXIT_FAILURE);
-	ft_memcpy(buffer_value, str + start, buffer_size);
-	elem = get_env_data(dl_env, );
-	if (set_env_value(dl_env, elem->name, buffer_value) == EXIT_FAILURE)
-	{
-		free(buffer_value);
-		return (EXIT_FAILURE);
-	}
-	printf("end of export value, name : %s value : %s\n", elem->name, elem->value);
-	free(buffer_value);
-	return (EXIT_SUCCESS);
-}
-*/

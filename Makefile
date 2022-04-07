@@ -21,8 +21,8 @@ SRC =	src/main.c\
 		src/builtin/cd.c\
 		src/builtin/unset.c\
 		src/builtin/echo.c\
+		src/builtin/export.c\
 		src/debug.c\
-		test/rngalloc.c
 
 INC =	inc/minishell.h
 

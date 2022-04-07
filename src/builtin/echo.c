@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 14:53:35 by ddordain          #+#    #+#             */
-/*   Updated: 2022/04/06 13:10:51 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/07 16:17:00 by ddordain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static char	*ft_strcat(char *dest, char *src)
 	return (dest);
 }
 
-static void	print_echo(bool n, int size, char **av, int ac)
+static void	print_echo(bool n, int size, t_command *cmd, t_minishell *sh)
 {
 	int		i;
 	char	*buffer_line;
@@ -37,13 +37,12 @@ static void	print_echo(bool n, int size, char **av, int ac)
 	i = 1;
 	if (n == true)
 		i = 2;
-	buffer_line = ft_calloc(size, sizeof(char));
-	if (buffer_line == NULL)
-		return ;
-	while (av[i] != NULL)
+	buffer_line = ymalloc(size * sizeof(char), sh);
+	ft_bzero(buffer_line, size);
+	while (cmd->av[i] != NULL)
 	{
-		buffer_line = ft_strcat(buffer_line, av[i]);
-		if (i < ac - 1)
+		buffer_line = ft_strcat(buffer_line, cmd->av[i]);
+		if (i < cmd->ac - 1)
 			buffer_line = ft_strcat(buffer_line, " ");
 		i++;
 	}
@@ -54,10 +53,9 @@ static void	print_echo(bool n, int size, char **av, int ac)
 		write(1, buffer_line, ft_strlen(buffer_line));
 		write(1, "\n", 1);
 	}
-	free(buffer_line);
 }
 
-void	builtin_echo(int ac, char **av)
+void	builtin_echo(t_minishell *sh, t_command *cmd)
 {
 	int		i;
 	bool	n;
@@ -66,20 +64,20 @@ void	builtin_echo(int ac, char **av)
 	i = 1;
 	n = false;
 	size = 0;
-	if (ac <= 1)
+	if (cmd->ac <= 1)
 	{
 		printf("\n");
 		return ;
 	}
-	if (strcmp(av[1], "-n") == 0)
+	if (strcmp(cmd->av[1], "-n") == 0)
 	{
 		i = 2;
 		n = true;
 	}
-	while (av[i] != NULL)
+	while (cmd->av[i] != NULL)
 	{
-		size += ft_strlen(av[i]) + 1;
+		size += ft_strlen(cmd->av[i]) + 1;
 		i++;
 	}
-	print_echo(n, size, av, ac);
+	print_echo(n, size, cmd, sh);
 }

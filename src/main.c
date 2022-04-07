@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 15:00:52 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/07 14:10:22 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/07 16:13:48 by ddordain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,14 @@ static int	minishell_init(t_minishell *sh, char **envp)
 int	main(int ac, char **av, char **envp)
 {
 	t_minishell	sh;
+	t_command	cmd;
 
-	(void)ac;
-	(void)av;
+	cmd.av = av;
+	cmd.ac = ac;
+
 	if (!isatty(0) || !isatty(1) || minishell_init(&sh, envp) != 0)
 		return (EXIT_FAILURE);
+	builtin_echo(&sh, &cmd);
 	debug_print_env(&sh.dl_env);
 	while (1)
 	{
