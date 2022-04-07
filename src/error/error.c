@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 12:00:19 by ddordain          #+#    #+#             */
-/*   Updated: 2022/04/06 17:45:41 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/07 13:18:41 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	perror_exit(const char *str, t_minishell *sh)
 	ft_dlist_destroy(&sh->dl_cmd);
 	ft_dlist_destroy(&sh->dl_malloc);
 	rl_clear_history();
-//	free(sh->cmdline.line);
+	if (sh->cmdline.line != NULL)
+		free(sh->cmdline.line);
 	exit(EXIT_FAILURE);
 }

@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 13:36:11 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/07 12:42:59 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/07 14:09:54 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,8 @@ void	cmd_destroy(void *data)
 	if (cmd)
 	{
 		ft_dlist_destroy(&cmd->redir);
-		av_destroy(cmd->av);
-		if (cmd->pipefd[0] != -1)
-			close(cmd->pipefd[0]);
-		if (cmd->pipefd[1] != -1)
-			close(cmd->pipefd[1]);
 		free(cmd);
 	}
-}
-
-static int	cmd_error(t_command *cmd)
-{
-	cmd_destroy(cmd);
-	return (-1);
 }
 
 static void	cmd_init(t_command *cmd, t_minishell *sh)
@@ -48,7 +37,7 @@ static void	cmd_init(t_command *cmd, t_minishell *sh)
 	cmd->sh = sh;
 }
 
-int	cmd_add(t_minishell *sh)
+void	cmd_add(t_minishell *sh)
 {
 	t_command	*cmd;
 
@@ -59,9 +48,6 @@ int	cmd_add(t_minishell *sh)
 		free(cmd);
 		perror_exit("Malloc failure", sh);
 	}
-	if (redir_add(cmd, sh) != 0)
-		return (cmd_error(cmd));
-	if (av_add(cmd, sh) != 0)
-		return (cmd_error(cmd));
-	return (0);
+	redir_add(cmd, sh);
+	av_add(cmd, sh);
 }

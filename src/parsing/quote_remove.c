@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 16:15:56 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/06 17:14:20 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/07 14:08:09 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	find_size(char *s)
 	return (size);
 }
 
-int	quote_remove(t_tok *cur_tok, t_minishell *sh)
+void	quote_remove(t_tok *cur_tok, t_minishell *sh)
 {
 	int		size;
 	char	*res;
@@ -45,5 +45,4 @@ int	quote_remove(t_tok *cur_tok, t_minishell *sh)
 			res[++j] = cur_tok->content[i];
 	res[j + 1] = 0;
 	cur_tok->content = res;
-	return (0);
 }

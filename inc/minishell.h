@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 12:43:10 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/07 12:42:55 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/07 14:11:04 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,15 +102,14 @@ extern unsigned char	g_exit_status;
 /* functions */
 
 /*	* env */
-int		set_env(t_minishell *sh, char **envp);
 t_elem	*get_env_elem(t_dlist *dl_env, char *name);
 t_env	*get_env_data(t_dlist *dl_env, char *name);
 char	*get_env_value(t_dlist *dl_env, char *name);
 int		set_env_value(t_dlist *dl_env, char *name, char *new_value);
 int		check_name(t_dlist *dl_env, char *buffer_name, t_minishell *sh);
 
+int		set_env(t_minishell *sh, char **envp);
 int		env_var_add(t_minishell *sh, char *to_add);
-void	env_var_destroy(void *data);
 
 /*	* lexer */
 /*	*	* lexer master */
@@ -134,16 +133,16 @@ void	*ymalloc(size_t bytes, t_minishell *sh);
 
 /*	* parsing */
 /*	*	* parser master */
-int		parse(t_minishell *sh);
+void	parse(t_minishell *sh);
 
 /*	*	* expansion */
-int		var_expand(t_tok *cur_tok, t_elem *prev_elem, t_minishell *sh);
+void	var_expand(t_tok *cur_tok, t_elem *prev_elem, t_minishell *sh);
 
 /*	*	* heredoc */
 void	check_heredoc(t_tok *cur_tok, t_elem *prev_elem);
 
 /*	*	* quote removal */
-int		quote_remove(t_tok *cur_tok, t_minishell *sh);
+void	quote_remove(t_tok *cur_tok, t_minishell *sh);
 
 /*	*	* parse utils */
 int		ft_len(const char *s);
@@ -152,17 +151,15 @@ int		quote_state(const char c, int quote);
 bool	is_quote(const char c, int *quote);
 
 /*	*	* cmd making */
-int		make_cmds(t_minishell *sh);
+void	make_cmds(t_minishell *sh);
 void	cmd_destroy(void *data);
-int		cmd_add(t_minishell *sh);
+void	cmd_add(t_minishell *sh);
 
 /*	*	* cmd redir */
-void	redir_destroy(void *data);
-int		redir_add(t_command *cmd, t_minishell *sh);
+void	redir_add(t_command *cmd, t_minishell *sh);
 
 /*	*	* cmd av */
-int		av_add(t_command *cmd, t_dlist *tokens, t_minishell *sh);
-void	av_destroy(char **av);
+void	av_add(t_command *cmd, t_minishell *sh);
 
 /*	* built-in */
 void	builtin_cd(t_dlist *dl_env, t_command *cmd);
