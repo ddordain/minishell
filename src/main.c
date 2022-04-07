@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 15:00:52 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/06 17:28:55 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/07 12:29:46 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,13 @@ static int	minishell_start(t_minishell *sh)
 {
 	int	err_code;
 
-	err_code = lex(&sh->cmdline, &sh->dl_tok, sh);
+	err_code = lex(sh);
 	if (err_code != 0)
 	{
 		ft_dlist_destroy(&sh->dl_tok);
 		return (err_code);
 	}
-	if (parse(&sh->dl_tok, &sh->dl_env, sh) != 0)
+	if (parse(sh) != 0)
 		return (-1);
 	debug_print_tok(&sh->dl_tok);
 	if (make_cmds(&sh->dl_tok, &sh->dl_cmd, sh) != 0)
@@ -70,7 +70,7 @@ static int	minishell_init(t_minishell *sh, char **envp)
 	ft_dlist_init(&sh->dl_env, free);
 	ft_dlist_init(&sh->dl_tok, free);
 	ft_dlist_init(&sh->dl_malloc, free);
-	if (set_env(&sh->dl_env, envp, sh) != 0)
+	if (set_env(sh, envp) != 0)
 	{
 		ft_dlist_destroy(&sh->dl_env);
 		return (-1);

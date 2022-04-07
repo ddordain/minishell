@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 13:25:46 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/06 18:05:48 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/07 12:22:37 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,19 +41,13 @@ static char	*get_var_value(char *var, t_minishell *sh)
 	return (res);
 }
 
-// static int	alloc_error(t_env *env_var)
-// {
-// 	env_var_destroy(env_var);
-// 	perror("minishell");
-// 	return (-1);
-// }
-
-int	env_var_add(t_dlist *env, char *to_add, t_minishell *sh)
+int	env_var_add(t_minishell *sh, char *to_add)
 {
 	t_env	*env_var;
 
 	env_var = xmalloc(sizeof(t_env), sh);
-	if (ft_dlist_ins_next(env, ft_dlist_tail(env), env_var) == -1)
+	if (ft_dlist_ins_next(
+			&sh->dl_env, ft_dlist_tail(&sh->dl_env), env_var) == -1)
 	{
 		free(env_var);
 		perror_exit("Malloc failure", sh);

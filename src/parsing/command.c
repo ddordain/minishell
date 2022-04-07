@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/30 16:27:56 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/06 17:02:44 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/07 12:37:25 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@ static bool	finish_parse(t_dlist *tokens)
 	return (true);
 }
 
-int	make_cmds(t_dlist *tokens, t_dlist *commands, t_minishell *sh)
+int	make_cmds(t_minishell *sh)
 {
-	while (finish_parse(tokens) == false)
+	while (finish_parse(&sh->dl_tok) == false)
 	{
-		if (cmd_add(tokens, commands, sh) != 0)
+		if (cmd_add(sh) != 0)
 			return (-1);
 	}
 	return (0);

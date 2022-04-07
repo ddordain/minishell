@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 12:43:10 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/06 18:16:53 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/07 12:42:55 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,19 +102,19 @@ extern unsigned char	g_exit_status;
 /* functions */
 
 /*	* env */
-int		set_env(t_dlist *env, char **envp, t_minishell *sh);
+int		set_env(t_minishell *sh, char **envp);
 t_elem	*get_env_elem(t_dlist *dl_env, char *name);
 t_env	*get_env_data(t_dlist *dl_env, char *name);
 char	*get_env_value(t_dlist *dl_env, char *name);
 int		set_env_value(t_dlist *dl_env, char *name, char *new_value);
 int		check_name(t_dlist *dl_env, char *buffer_name, t_minishell *sh);
 
-int		env_var_add(t_dlist *env, char *to_add, t_minishell *sh);
+int		env_var_add(t_minishell *sh, char *to_add);
 void	env_var_destroy(void *data);
 
 /*	* lexer */
 /*	*	* lexer master */
-int		lex(t_line *cmdline, t_dlist *tokens, t_minishell *sh);
+int		lex(t_minishell *sh);
 
 /*	*	* lexer utils */
 bool	is_space(const char c);
@@ -134,10 +134,10 @@ void	*ymalloc(size_t bytes, t_minishell *sh);
 
 /*	* parsing */
 /*	*	* parser master */
-int		parse(t_dlist *tokens, const t_dlist *env, t_minishell *sh);
+int		parse(t_minishell *sh);
 
 /*	*	* expansion */
-int		var_expand(t_tok *cur_tok, const t_dlist *env, t_elem *prev_elem, t_minishell *sh);
+int		var_expand(t_tok *cur_tok, t_elem *prev_elem, t_minishell *sh);
 
 /*	*	* heredoc */
 void	check_heredoc(t_tok *cur_tok, t_elem *prev_elem);
@@ -152,13 +152,13 @@ int		quote_state(const char c, int quote);
 bool	is_quote(const char c, int *quote);
 
 /*	*	* cmd making */
-int		make_cmds(t_dlist *tokens, t_dlist *commands, t_minishell *sh);
+int		make_cmds(t_minishell *sh);
 void	cmd_destroy(void *data);
-int		cmd_add(t_dlist *tokens, t_dlist *commands, t_minishell *sh);
+int		cmd_add(t_minishell *sh);
 
 /*	*	* cmd redir */
 void	redir_destroy(void *data);
-int		redir_add(t_command *cmd, t_dlist *tokens, t_minishell *sh);
+int		redir_add(t_command *cmd, t_minishell *sh);
 
 /*	*	* cmd av */
 int		av_add(t_command *cmd, t_dlist *tokens, t_minishell *sh);

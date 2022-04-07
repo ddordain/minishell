@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 13:36:11 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/06 18:28:10 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/07 12:42:59 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,17 +48,20 @@ static void	cmd_init(t_command *cmd, t_minishell *sh)
 	cmd->sh = sh;
 }
 
-int	cmd_add(t_dlist *tokens, t_dlist *commands, t_minishell *sh)
+int	cmd_add(t_minishell *sh)
 {
 	t_command	*cmd;
 
 	cmd = xmalloc(sizeof(t_command), sh);
 	cmd_init(cmd, sh);
-	if (ft_dlist_ins_next(commands, ft_dlist_tail(commands), cmd) != 0)
+	if (ft_dlist_ins_next(&sh->dl_cmd, ft_dlist_tail(&sh->dl_cmd), cmd) != 0)
+	{
+		free(cmd);
 		perror_exit("Malloc failure", sh);
-	if (redir_add(cmd, tokens, sh) != 0)
+	}
+	if (redir_add(cmd, sh) != 0)
 		return (cmd_error(cmd));
-	if (av_add(cmd, tokens, sh) != 0)
+	if (av_add(cmd, sh) != 0)
 		return (cmd_error(cmd));
 	return (0);
 }

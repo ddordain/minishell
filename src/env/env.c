@@ -6,19 +6,19 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 11:36:58 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/06 16:15:06 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/07 12:09:48 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int	set_env(t_dlist *env, char **envp, t_minishell *sh)
+int	set_env(t_minishell *sh, char **envp)
 {
 	int		i;
 
 	i = -1;
 	while (envp[++i])
-		if (env_var_add(env, envp[i], sh) != 0)
+		if (env_var_add(sh, envp[i]) != 0)
 			return (-1);
 	return (0);
 }
