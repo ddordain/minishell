@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 15:00:52 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/07 16:13:48 by ddordain         ###   ########.fr       */
+/*   Updated: 2022/04/08 12:40:57 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	main(int ac, char **av, char **envp)
 		if (!sh.cmdline.line)
 			break ;
 		if (minishell_start(&sh) == -1)
-			perror_exit(NULL, &sh);
+			perror_exit("minishell", &sh);
 		free(sh.cmdline.line);
 	}
 	ft_dlist_destroy(&sh.dl_env);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   safe_malloc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 15:48:33 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/07 15:50:35 by ddordain         ###   ########.fr       */
+/*   Updated: 2022/04/08 13:16:52 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,7 @@ char	*ft_strdup_ymalloc(const char *s, t_minishell *sh)
 	char	*dest;
 
 	size = ft_strlen(s) + 1;
-	dest = (char *)ymalloc(sizeof(char) * size, sh);
-	if (dest == NULL)
-		return (NULL);
+	dest = ymalloc(sizeof(char) * size, sh);
 	ft_memcpy(dest, s, size);
 	return (dest);
 }
@@ -32,9 +30,7 @@ char	*ft_itoa_ymalloc(t_minishell *sh, int n)
 	int		i;
 
 	i = 1;
-	str = (char *)ymalloc(sizeof(char) * (check_size(n) + 1), sh);
-	if (str == NULL)
-		return (NULL);
+	str = ymalloc(sizeof(char) * (check_size(n) + 1), sh);
 	if (n < 0)
 		str[0] = '-';
 	result = n;

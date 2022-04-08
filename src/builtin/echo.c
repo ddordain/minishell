@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 14:53:35 by ddordain          #+#    #+#             */
-/*   Updated: 2022/04/07 16:17:00 by ddordain         ###   ########.fr       */
+/*   Updated: 2022/04/08 12:34:03 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	builtin_echo(t_minishell *sh, t_command *cmd)
 		printf("\n");
 		return ;
 	}
-	if (strcmp(cmd->av[1], "-n") == 0)
+	if (ft_strcmp(cmd->av[1], "-n") == 0)
 	{
 		i = 2;
 		n = true;

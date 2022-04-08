@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 12:43:10 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/07 16:13:16 by ddordain         ###   ########.fr       */
+/*   Updated: 2022/04/08 13:31:07 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <sys/wait.h>
 # include <errno.h>
 # include <sys/types.h>
+# include <signal.h>
 # include "../libft/include/libft.h"
 
 /* defines */
@@ -127,6 +128,7 @@ void	tok_destroy(void *data);
 char	*get_tok_content(t_line *cmdline, const int tok_type, t_minishell *sh);
 
 /*	* error utils */
+void	pre_exec_error(const char *s, t_minishell *sh);
 void	perror_exit(const char *str, t_minishell *sh);
 void	*xmalloc(size_t bytes, t_minishell *sh);
 void	*ymalloc(size_t bytes, t_minishell *sh);

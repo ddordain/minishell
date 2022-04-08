@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 13:09:44 by ddordain          #+#    #+#             */
-/*   Updated: 2022/04/07 15:51:36 by ddordain         ###   ########.fr       */
+/*   Updated: 2022/04/08 13:23:33 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,17 +102,13 @@ int	check_name(char *buffer_name, t_minishell *sh)
 	if (get_env_data(&sh->dl_env, buffer_name) != NULL)
 		return (EXIT_SUCCESS);
 	data = xmalloc(sizeof(t_env), sh);
-	if (data == NULL)
-		return (EXIT_FAILURE);
-	name = ft_strdup_ymalloc(buffer_name, sh);
-	if (name == NULL)
-		return (EXIT_FAILURE);
 	if (ft_dlist_ins_next(&sh->dl_env, ft_dlist_tail(&sh->dl_env), data) == -1)
-		perror_exit("Malloc failure", sh);
-	else
 	{
-		data->name = name;
-		data->value = NULL;
+		free(data);
+		perror_exit("Malloc failure", sh);
 	}
+	name = ft_strdup_ymalloc(buffer_name, sh);
+	data->name = name;
+	data->value = NULL;
 	return (EXIT_SUCCESS);
 }

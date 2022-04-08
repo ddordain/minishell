@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 16:36:29 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/06 14:07:16 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/08 12:49:02 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ static bool	is_builtin(char *cmd)
 	return (false);
 }
 
-int	exec_one(t_command *cmd, t_dlist *dl_env)
+int	exec_in_parent(t_command *cmd, t_dlist *dl_env)
 {
 	// add redir
-	if (ft_strcmp(cmd->av[0], "cd") == 0)
-		return (builtin_cd(dl_env, cmd));
+	// if (ft_strcmp(cmd->av[0], "cd") == 0)
+	// 	return (builtin_cd(dl_env, cmd));
 }
 
 int	minishell_exec(t_minishell *sh)
@@ -43,13 +43,13 @@ int	minishell_exec(t_minishell *sh)
 	{
 		cur_cmd = cur_elem->data;
 		if (sh->dl_cmd.size == 1 && is_builtin(cur_cmd->av[0]))
-			return (exec_one(cur_cmd, &sh->dl_env));
+			return (exec_in_parent(cur_cmd, &sh->dl_env));
 		if (cur_elem->next != NULL)
 			if (pipe(cur_cmd->pipefd) == -1)
-				perror_exit("pipe()", sh);
+				pre_exec_error("pipe()", sh);
 		cur_cmd->pid = fork();
 		if (cur_cmd->pid == -1)
-			perror_exit("fork()", sh);
+			pre_exec_error("fork()", sh);
 		if (cur_cmd->pid == 0)
 			exec_cmd(cur_cmd, sh->dl_env);
 		cur_elem = cur_elem->next;
