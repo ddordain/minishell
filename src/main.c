@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 15:00:52 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/08 12:40:57 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/11 13:30:08 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,43 +39,37 @@ static int	minishell_start(t_minishell *sh)
 	debug_print_tok(&sh->dl_tok);
 	make_cmds(sh);
 	ft_dlist_destroy(&sh->dl_tok);
-	// err_code = minishell_exec(sh);
-	// if (err_code != 0)
-	// {
-	// 	ft_dlist_destroy(&sh->dl_cmd);
-	// 	return (err_code);
-	// }
 	debug_print_cmd(&sh->dl_cmd);
+	err_code = minishell_exec(sh);
+	if (err_code != 0)
+	{
+		ft_dlist_destroy(&sh->dl_cmd);
+		return (err_code);
+	}
 	ft_dlist_destroy(&sh->dl_cmd);
 	return (0);
 }
 
 static int	minishell_init(t_minishell *sh, char **envp)
 {
+	// signal
 	ft_dlist_init(&sh->dl_cmd, cmd_destroy);
 	ft_dlist_init(&sh->dl_env, free);
 	ft_dlist_init(&sh->dl_tok, free);
 	ft_dlist_init(&sh->dl_malloc, free);
 	sh->cmdline.line = NULL;
-	if (set_env(sh, envp) != 0)
-	{
-		ft_dlist_destroy(&sh->dl_env);
-		return (-1);
-	}
+	set_env(sh, envp);
 	return (0);
 }
 
 int	main(int ac, char **av, char **envp)
 {
 	t_minishell	sh;
-	t_command	cmd;
 
-	cmd.av = av;
-	cmd.ac = ac;
-
+	(void)ac;
+	(void)av;
 	if (!isatty(0) || !isatty(1) || minishell_init(&sh, envp) != 0)
 		return (EXIT_FAILURE);
-	builtin_echo(&sh, &cmd);
 	debug_print_env(&sh.dl_env);
 	while (1)
 	{
@@ -89,5 +83,5 @@ int	main(int ac, char **av, char **envp)
 	ft_dlist_destroy(&sh.dl_env);
 	ft_dlist_destroy(&sh.dl_malloc);
 	rl_clear_history();
-	return (EXIT_SUCCESS);
+	return (g_exit_status);
 }

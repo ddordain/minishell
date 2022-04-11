@@ -22,7 +22,11 @@ SRC =	src/main.c\
 		src/builtin/unset.c\
 		src/builtin/echo.c\
 		src/builtin/export.c\
-		src/debug.c\
+		src/debug/debug_print.c\
+		src/debug/rngalloc.c\
+		src/exec/exec_master.c\
+		src/exec/exec_command.c\
+		src/exec/exec_utils.c\
 
 INC =	inc/minishell.h
 
@@ -66,6 +70,7 @@ test: all
 	valgrind \
 	--leak-check=full \
 	--track-origins=yes \
+	--track-fds=yes \
 	--show-leak-kinds=all \
 	--show-reachable=yes \
 	--suppressions=./.readline.supp \

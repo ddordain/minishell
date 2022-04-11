@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 12:43:10 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/08 13:31:07 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/11 13:25:07 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <sys/wait.h>
 # include <errno.h>
 # include <sys/types.h>
+# include <sys/stat.h>
 # include <signal.h>
 # include "../libft/include/libft.h"
 
@@ -46,6 +47,9 @@
 # define REDIR_APPEND 7		// >>
 # define PIPE 8				// |
 # define INVAL_OP 9
+
+# define PIPE_RD 0
+# define PIPE_WR 1
 
 /* structs */
 
@@ -164,6 +168,18 @@ void	redir_add(t_command *cmd, t_minishell *sh);
 
 /*	*	* cmd av */
 void	av_add(t_command *cmd, t_minishell *sh);
+
+/*	* exec */
+/*	*	* exec master */
+int		minishell_exec(t_minishell *sh);
+
+/*	*	* exec cmd */
+void	exec_cmd(t_command *cur_cmd, t_minishell *sh);
+
+/*	*	* exec utils */
+void	ft_close(int fd);
+void	close_pipes(t_command *cmd);
+void	minishell_exit(t_minishell *sh, int status);
 
 /*	* built-in */
 void	builtin_cd(t_minishell *sh, t_command *cmd);

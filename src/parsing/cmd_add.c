@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 13:36:11 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/08 12:06:39 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/11 12:22:02 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,15 @@ void	cmd_destroy(void *data)
 
 static void	cmd_init(t_command *cmd, t_minishell *sh)
 {
-	cmd->ac = 0;
+	cmd->ac = -2;
 	cmd->av = NULL;
 	cmd->envp = NULL;
 	ft_dlist_init(&cmd->redir, free);
-	cmd->fdin = -1;
-	cmd->fdout = -1;
-	cmd->pipefd[0] = -1;
-	cmd->pipefd[1] = -1;
-	cmd->pid = -1;
+	cmd->fdin = -2;
+	cmd->fdout = -2;
+	cmd->pipefd[0] = -2;
+	cmd->pipefd[1] = -2;
+	cmd->pid = -2;
 	cmd->sh = sh;
 }
 

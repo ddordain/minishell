@@ -6,11 +6,11 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 13:34:47 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/01 15:09:46 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/11 12:43:33 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
 void	debug_print_env(t_dlist *env_start)
 {
