@@ -27,6 +27,7 @@ SRC =	src/main.c\
 		src/exec/exec_master.c\
 		src/exec/exec_command.c\
 		src/exec/exec_utils.c\
+		src/exec/exec_pipes.c\
 
 INC =	inc/minishell.h
 

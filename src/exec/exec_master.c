@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 16:36:29 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/11 13:19:15 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/11 17:56:22 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,11 @@ static void	wait_cmd(t_elem *cur_elem)
 	if (cur_elem->prev)
 		prev_cmd = cur_elem->prev->data;
 	waitpid(cur_cmd->pid, &status, 0);
+	ft_close(&cur_cmd->pipefd[PIPE_WR]);
+	if (cur_elem->next == NULL)
+		ft_close(&cur_cmd->pipefd[PIPE_RD]);
 	if (prev_cmd)
-		ft_close(prev_cmd->pipefd[PIPE_RD]);
-	ft_close(cur_cmd->pipefd[PIPE_WR]);
-	if (!cur_elem->next)
-		ft_close(cur_cmd->pipefd[PIPE_RD]);
+		ft_close(&prev_cmd->pipefd[PIPE_RD]);
 	if (WIFEXITED(status))
 		g_exit_status = WEXITSTATUS(status);
 }
@@ -75,7 +75,7 @@ int	minishell_exec(t_minishell *sh)
 		if (cur_cmd->pid == -1)
 			pre_exec_error("fork()", sh);
 		if (cur_cmd->pid == 0)
-			exec_cmd(cur_cmd, sh); // update signal for child
+			exec_cmd(cur_elem, sh); // update signal for child
 		else
 			wait_cmd(cur_elem);
 		cur_elem = cur_elem->next;

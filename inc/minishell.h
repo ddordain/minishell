@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 12:43:10 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/11 13:25:07 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/11 18:20:14 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,12 +174,13 @@ void	av_add(t_command *cmd, t_minishell *sh);
 int		minishell_exec(t_minishell *sh);
 
 /*	*	* exec cmd */
-void	exec_cmd(t_command *cur_cmd, t_minishell *sh);
+void	exec_cmd(t_elem *cur_elem, t_minishell *sh);
+int		exec_pipe(t_elem *elem, t_command *cmd);
 
 /*	*	* exec utils */
-void	ft_close(int fd);
-void	close_pipes(t_command *cmd);
-void	minishell_exit(t_minishell *sh, int status);
+int		ft_close(int *fd);
+void	exec_close_fds(t_elem *elem);
+void	minishell_exit(t_minishell *sh, int status, t_command *cmd);
 
 /*	* built-in */
 void	builtin_cd(t_minishell *sh, t_command *cmd);

@@ -6,26 +6,41 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 12:49:01 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/11 13:25:01 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/11 18:26:39 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void	ft_close(int fd)
+int	ft_close(int *fd)
 {
-	if (fd >= 0)
-		close(fd);
+	if (*fd >= 3)
+		if (close(*fd) == -1)
+			return (perror("close()"), -1);
+	*fd = -2;
+	return (0);
 }
 
-void	close_pipes(t_command *cmd)
+void	exec_close_fds(t_elem *elem)
 {
-	ft_close(cmd->pipefd[PIPE_RD]);
-	ft_close(cmd->pipefd[PIPE_WR]);
+	t_command	*cur_cmd;
+	t_command	*prev_cmd;
+
+	cur_cmd = elem->data;
+	if (elem->prev)
+	{
+		prev_cmd = elem->prev->data;
+		ft_close(&prev_cmd->pipefd[PIPE_RD]);
+	}
+	ft_close(&cur_cmd->pipefd[PIPE_RD]);
+	ft_close(&cur_cmd->pipefd[PIPE_WR]);
+	ft_close(&cur_cmd->fdin);
+	ft_close(&cur_cmd->fdout);
 }
 
-void	minishell_exit(t_minishell *sh, int status)
+void	minishell_exit(t_minishell *sh, int status, t_command *cmd)
 {
+	(void)cmd;
 	ft_dlist_destroy(&sh->dl_tok);
 	ft_dlist_destroy(&sh->dl_env);
 	ft_dlist_destroy(&sh->dl_cmd);
