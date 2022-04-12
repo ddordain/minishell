@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 15:00:52 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/12 18:31:00 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/12 19:00:10 by ddordain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,5 +84,6 @@ int	main(int ac, char **av, char **envp)
 	ft_dlist_destroy(&sh.dl_env);
 	ft_dlist_destroy(&sh.dl_malloc);
 	rl_clear_history();
+	echo_on();
 	return (g_exit_status);
 }
