@@ -6,7 +6,7 @@
 /*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 15:00:52 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/12 19:00:10 by ddordain         ###   ########.fr       */
+/*   Updated: 2022/04/12 19:17:03 by ddordain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,5 @@ int	main(int ac, char **av, char **envp)
 	ft_dlist_destroy(&sh.dl_env);
 	ft_dlist_destroy(&sh.dl_malloc);
 	rl_clear_history();
-	echo_on();
 	return (g_exit_status);
 }

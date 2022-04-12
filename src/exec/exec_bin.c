@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_bin.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 16:51:08 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/12 18:37:00 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/12 19:20:53 by ddordain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	exec_error(char **paths, char **envp, t_elem *elem, int err_code)
 
 static void	prep_exec(t_command *cmd, char *to_exec)
 {
-	//signal
+	signal(SIGQUIT, SIG_DFL);
 	execve(to_exec, cmd->av, cmd->envp);
 }
 
@@ -45,7 +45,7 @@ int	exec_absolute(t_command *cmd)
 		write(2, ": command not found\n", 20);
 		return (free(to_exec), 127);
 	}
-	execve(to_exec, cmd->av, cmd->envp);
+	prep_exec(cmd, to_exec);
 	return (free(to_exec), -1);
 }
 
