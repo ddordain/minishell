@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 12:43:10 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/12 15:32:59 by ddordain         ###   ########.fr       */
+/*   Updated: 2022/04/12 17:36:48 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,12 +184,19 @@ int		minishell_exec(t_minishell *sh);
 void	exec_cmd(t_elem *cur_elem, t_minishell *sh);
 int		exec_redir(t_elem *elem, t_command *cmd);
 int		exec_pipe(t_elem *elem, t_command *cmd);
+int		exec_bin(t_elem *elem, t_command *cmd);
+
+/*	*	* exec env */
+char	**env_tab(t_dlist *dl_env);
+char	**get_paths(t_dlist *dl_env);
+char	*path_add_slash(char *s1);
 
 /*	*	* exec utils */
 int		ft_close(int *fd);
 void	exec_close_fds(t_elem *elem);
 void	minishell_exit(t_minishell *sh, int status);
-char	**get_paths(t_dlist *dl_env);
+int		str_tab_len(char **tab);
+void	free_str_tab(char **tab, const int upto);
 
 /*	* built-in */
 void	builtin_cd(t_minishell *sh, t_command *cmd);
@@ -198,7 +205,7 @@ void	builtin_unset(t_dlist *dl_env, int ac, char **av);
 void	builtin_exit(t_minishell *sh, t_line *cmdline);
 void	builtin_echo(t_minishell *sh, t_command *cmd);
 
-/* signal */
+/*	* signal */
 void	signal_handler(int handler, t_minishell *sh);
 void	handler_rl(int signo, siginfo_t *si, void *ignore);
 void	handler_child(int signo, siginfo_t *si, void *ignore);
@@ -210,6 +217,7 @@ void	debug_print_tok(t_dlist *tokens);
 void	debug_print_redir(t_command *cmd);
 void	debug_print_av(t_command *cmd);
 void	debug_print_cmd(t_dlist *cmds);
+void	debug_print_tab(char **tab);
 void	*rngalloc(size_t size);
 
-#endif		// MINISHELL_Hs
+#endif		// MINISHELL_H

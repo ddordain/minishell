@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 12:49:01 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/12 13:15:18 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/12 17:08:10 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,30 @@ int	ft_close(int *fd)
 			return (perror("close()"), -1);
 	*fd = -2;
 	return (0);
+}
+
+int	str_tab_len(char **tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab[i])
+		i++;
+	return (i);
+}
+
+void	free_str_tab(char **tab, const int upto)
+{
+	int	i;
+
+	i = 0;
+	while (i < upto)
+	{
+		if (tab[i] != NULL)
+			free(tab[i]);
+		i++;
+	}
+	free(tab);
 }
 
 void	exec_close_fds(t_elem *elem)

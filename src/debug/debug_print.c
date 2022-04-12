@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   debug.c                                            :+:      :+:    :+:   */
+/*   debug_print.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 13:34:47 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/11 12:43:33 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/12 16:38:24 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,5 +79,16 @@ void	debug_print_cmd(t_dlist *cmds)
 		debug_print_av(cur_cmd);
 		cur_elem = cur_elem->next;
 		printf("\n");
+	}
+}
+
+void	debug_print_tab(char **tab)
+{
+	int	i = 0;
+
+	while (tab[i] != NULL)
+	{
+		fprintf(stderr, "%s\n", tab[i]);
+		i++;
 	}
 }
