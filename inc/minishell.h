@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 12:43:10 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/12 14:22:22 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/12 15:32:59 by ddordain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <signal.h>
+// # include <sys/siginfo.h>
 # include "../libft/include/libft.h"
 
 /* defines */
@@ -51,6 +52,11 @@
 # define PIPE_RD 0
 # define PIPE_WR 1
 
+# define HANDLER_MAIN 0
+# define HANDLER_RL 1
+# define HANDLER_PARENT 2
+# define HANDLER_CHILD 3
+
 /* structs */
 
 typedef struct s_line
@@ -62,11 +68,12 @@ typedef struct s_line
 
 typedef struct s_minishell
 {
-	t_dlist	dl_cmd;
-	t_dlist	dl_tok;
-	t_dlist	dl_env;
-	t_dlist	dl_malloc;
-	t_line	cmdline;
+	t_dlist				dl_cmd;
+	t_dlist				dl_tok;
+	t_dlist				dl_env;
+	t_dlist				dl_malloc;
+	t_line				cmdline;
+	struct sigaction	sa;
 }	t_minishell;
 
 typedef struct s_command
@@ -191,6 +198,12 @@ void	builtin_unset(t_dlist *dl_env, int ac, char **av);
 void	builtin_exit(t_minishell *sh, t_line *cmdline);
 void	builtin_echo(t_minishell *sh, t_command *cmd);
 
+/* signal */
+void	signal_handler(int handler, t_minishell *sh);
+void	handler_rl(int signo, siginfo_t *si, void *ignore);
+void	handler_child(int signo, siginfo_t *si, void *ignore);
+void	handler_parent(int signo, siginfo_t *si, void *ignore);
+
 /*	* debug */
 void	debug_print_env(t_dlist *env_start);
 void	debug_print_tok(t_dlist *tokens);
@@ -199,4 +212,4 @@ void	debug_print_av(t_command *cmd);
 void	debug_print_cmd(t_dlist *cmds);
 void	*rngalloc(size_t size);
 
-#endif		// MINISHELL_H
+#endif		// MINISHELL_Hs

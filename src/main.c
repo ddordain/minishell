@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 15:00:52 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/11 13:30:08 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/12 15:41:02 by ddordain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 unsigned char	g_exit_status = 0;
 
-static void	minishell_read(t_line *cmdline)
+static void	minishell_read(t_line *cmdline, t_minishell *sh)
 {
+	signal_handler(HANDLER_RL, sh);
 	cmdline->line = readline(PROMPT);
 	if (!cmdline->line)
 		return ;
@@ -52,7 +53,7 @@ static int	minishell_start(t_minishell *sh)
 
 static int	minishell_init(t_minishell *sh, char **envp)
 {
-	// signal
+	signal_handler(HANDLER_MAIN, sh);
 	ft_dlist_init(&sh->dl_cmd, cmd_destroy);
 	ft_dlist_init(&sh->dl_env, free);
 	ft_dlist_init(&sh->dl_tok, free);
@@ -73,7 +74,7 @@ int	main(int ac, char **av, char **envp)
 	debug_print_env(&sh.dl_env);
 	while (1)
 	{
-		minishell_read(&sh.cmdline);
+		minishell_read(&sh.cmdline, &sh);
 		if (!sh.cmdline.line)
 			break ;
 		if (minishell_start(&sh) == -1)
