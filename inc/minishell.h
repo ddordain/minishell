@@ -6,7 +6,7 @@
 /*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 12:43:10 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/12 18:46:20 by ddordain         ###   ########.fr       */
+/*   Updated: 2022/04/12 18:49:17 by ddordain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,9 +208,6 @@ void	builtin_echo(t_minishell *sh, t_command *cmd);
 
 /*	* signal */
 void	signal_handler(int handler, t_minishell *sh);
-void	handler_rl(int signo, siginfo_t *si, void *ignore);
-void	handler_child(int signo, siginfo_t *si, void *ignore);
-void	handler_parent(int signo, siginfo_t *si, void *ignore);
 
 /*	* debug */
 void	debug_print_env(t_dlist *env_start);
