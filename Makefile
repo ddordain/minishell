@@ -13,7 +13,6 @@ SRC =	src/main.c\
 		src/parsing/expansion.c\
 		src/parsing/parse_utils.c\
 		src/parsing/quote_remove.c\
-		src/parsing/check_heredoc.c\
 		src/parsing/command.c\
 		src/parsing/cmd_add.c\
 		src/parsing/cmd_redir.c\

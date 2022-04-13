@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 12:43:10 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/12 18:58:00 by ddordain         ###   ########.fr       */
+/*   Updated: 2022/04/13 15:59:43 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <signal.h>
-# include <termios.h>
 // # include <sys/siginfo.h>
 # include "../libft/include/libft.h"
 
@@ -45,10 +44,9 @@
 # define REDIR_IN 3			// <
 # define REDIR_TRUNC 4		// >
 # define REDIR_HEREDOC 5	// << limiter
-# define REDIR_HEREDOC_RAW 6// << 'limiter'
-# define REDIR_APPEND 7		// >>
-# define PIPE 8				// |
-# define INVAL_OP 9
+# define REDIR_APPEND 6		// >>
+# define PIPE 7				// |
+# define INVAL_OP 8
 
 # define PIPE_RD 0
 # define PIPE_WR 1
@@ -153,9 +151,6 @@ void	parse(t_minishell *sh);
 
 /*	*	* expansion */
 void	var_expand(t_tok *cur_tok, t_elem *prev_elem, t_minishell *sh);
-
-/*	*	* heredoc */
-void	check_heredoc(t_tok *cur_tok, t_elem *prev_elem);
 
 /*	*	* quote removal */
 void	quote_remove(t_tok *cur_tok, t_minishell *sh);

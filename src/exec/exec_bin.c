@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_bin.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 16:51:08 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/12 19:20:53 by ddordain         ###   ########.fr       */
+/*   Updated: 2022/04/13 15:51:17 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,23 @@ static void	exec_error(char **paths, char **envp, t_elem *elem, int err_code)
 	exec_close_fds(elem);
 }
 
-static void	prep_exec(t_command *cmd, char *to_exec)
+static int	prep_exec(t_command *cmd, char *to_exec)
 {
+	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 	execve(to_exec, cmd->av, cmd->envp);
+	return (-1);
 }
 
-int	exec_absolute(t_command *cmd)
+static int	exec_absolute(t_command *cmd)
 {
 	char	*to_exec;
 	char	*tmp;
 
 	tmp = path_add_slash(getcwd(NULL, 0));
 	to_exec = ft_strjoin(tmp, cmd->av[0]);
-	free(tmp);
+	if (tmp != NULL)
+		free(tmp);
 	if (!to_exec)
 		return (-1);
 	if (access(to_exec, F_OK) == -1)
@@ -45,8 +48,13 @@ int	exec_absolute(t_command *cmd)
 		write(2, ": command not found\n", 20);
 		return (free(to_exec), 127);
 	}
+	if (access(to_exec, X_OK) == -1)
+	{
+		perror(cmd->av[0]);
+		return (free(to_exec), 126);
+	}
 	prep_exec(cmd, to_exec);
-	return (free(to_exec), -1);
+	return (free(to_exec), 1);
 }
 
 int	exec_bin(t_elem *elem, t_command *cmd)
@@ -54,6 +62,7 @@ int	exec_bin(t_elem *elem, t_command *cmd)
 	char	**paths;
 	char	*to_exec;
 	int		i;
+	int		err_code;
 
 	paths = get_paths(&cmd->sh->dl_env);
 	if (!paths && get_env_value(&cmd->sh->dl_env, "PATH") != NULL)
@@ -71,7 +80,6 @@ int	exec_bin(t_elem *elem, t_command *cmd)
 			prep_exec(cmd, to_exec);
 		free(to_exec);
 	}
-	if (exec_absolute(cmd) == -1)
-		return (exec_error(paths, cmd->envp, elem, -1), 1);
-	return (exec_error(paths, cmd->envp, elem, 127), 127);
+	err_code = exec_absolute(cmd);
+	return (exec_error(paths, cmd->envp, elem, err_code), err_code);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 14:30:37 by ddordain          #+#    #+#             */
-/*   Updated: 2022/04/12 19:26:52 by ddordain         ###   ########.fr       */
+/*   Updated: 2022/04/13 11:25:58 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,14 +63,14 @@ static void	handler_parent(int signo, siginfo_t *si, void *ignore)
 // 	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 // }
 
-void	echo_on(void)
-{
-	struct termios	term;
+// void	echo_on(void)
+// {
+// 	struct termios	term;
 
-	tcgetattr(STDIN_FILENO, &term);
-	term.c_lflag |= ECHOCTL;
-	tcsetattr(STDIN_FILENO, TCSANOW, &term);
-}
+// 	tcgetattr(STDIN_FILENO, &term);
+// 	term.c_lflag |= ECHOCTL;
+// 	tcsetattr(STDIN_FILENO, TCSANOW, &term);
+// }
 
 void	signal_handler(int handler, t_minishell *sh)
 {

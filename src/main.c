@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 15:00:52 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/12 19:17:03 by ddordain         ###   ########.fr       */
+/*   Updated: 2022/04/13 12:03:05 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static void	minishell_read(t_line *cmdline, t_minishell *sh)
 	cmdline->line = readline(PROMPT);
 	if (!cmdline->line)
 		return ;
+	signal_handler(HANDLER_MAIN, sh);
 	cmdline->len = ft_strlen(cmdline->line);
 	if (cmdline->len > 0)
 		add_history(cmdline->line);

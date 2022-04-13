@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 16:36:29 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/11 17:56:22 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/13 15:17:01 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,8 @@ static int	exec_in_parent(t_command *cmd, t_dlist *dl_env)
 	return (0);
 }
 
-static void	wait_cmd(t_elem *cur_elem)
+static void	prep_next_cmd(t_elem *cur_elem)
 {
-	int			status;
 	t_command	*cur_cmd;
 	t_command	*prev_cmd;
 
@@ -47,14 +46,31 @@ static void	wait_cmd(t_elem *cur_elem)
 	prev_cmd = NULL;
 	if (cur_elem->prev)
 		prev_cmd = cur_elem->prev->data;
-	waitpid(cur_cmd->pid, &status, 0);
 	ft_close(&cur_cmd->pipefd[PIPE_WR]);
 	if (cur_elem->next == NULL)
 		ft_close(&cur_cmd->pipefd[PIPE_RD]);
 	if (prev_cmd)
 		ft_close(&prev_cmd->pipefd[PIPE_RD]);
-	if (WIFEXITED(status))
-		g_exit_status = WEXITSTATUS(status);
+}
+
+static void	wait_all(t_minishell *sh)
+{
+	int			status;
+	t_elem		*cur_elem;
+	t_command	*cur_cmd;
+
+	cur_elem = sh->dl_cmd.head;
+	while (cur_elem != NULL)
+	{
+		cur_cmd = cur_elem->data;
+		if (waitpid(cur_cmd->pid, &status, 0) == -1)
+			perror("waitpid()");
+		if (WIFEXITED(status))
+			g_exit_status = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			g_exit_status = 128 + WTERMSIG(status);
+		cur_elem = cur_elem->next;
+	}
 }
 
 int	minishell_exec(t_minishell *sh)
@@ -77,8 +93,9 @@ int	minishell_exec(t_minishell *sh)
 		if (cur_cmd->pid == 0)
 			exec_cmd(cur_elem, sh); // update signal for child
 		else
-			wait_cmd(cur_elem);
+			prep_next_cmd(cur_elem);
 		cur_elem = cur_elem->next;
 	}
+	wait_all(sh);
 	return (0);
 }

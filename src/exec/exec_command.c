@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 16:04:29 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/12 17:10:21 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/13 11:27:32 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void	exec_cmd(t_elem *cur_elem, t_minishell *sh)
 		minishell_exit(sh, 1);
 	if (exec_pipe(cur_elem, cur_cmd) != 0)
 		minishell_exit(sh, 1);
+	if (cur_cmd->ac == 0)
+		minishell_exit(sh, 0);
 	// is builtin ?
 	err_code = exec_bin(cur_elem, cur_cmd);
 	if (err_code != 0)
