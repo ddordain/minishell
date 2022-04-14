@@ -6,11 +6,37 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 11:19:37 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/12 11:20:00 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/14 13:05:52 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+static int	here_doc(t_redir *redir)
+{
+	char	*line;
+	int		pipe_heredoc[2];
+
+	if (pipe(pipe_heredoc) != 0)
+		return (-1);
+	// ctrl+c doit free line et fermer le pipe heredoc
+	line = readline("> ");
+	if (!line)
+		return (0);
+	while (line && ft_strcmp(line, redir->var))
+	{
+		write(pipe_heredoc[PIPE_WR], line, ft_len(line));
+		write(pipe_heredoc[PIPE_WR], "\n", 1);
+		free(line);
+		line = readline("> ");
+	}
+	if (line)
+		free(line);
+	else
+		write(2, "\n", 1);
+	ft_close(&pipe_heredoc[PIPE_WR]);
+	return (pipe_heredoc[PIPE_RD]);
+}
 
 static int	redir_one(t_elem *elem, t_command *cmd, t_redir *redir)
 {
@@ -24,8 +50,11 @@ static int	redir_one(t_elem *elem, t_command *cmd, t_redir *redir)
 		ft_close(&cmd->fdout);
 		cmd->fdout = open(redir->var, O_CREAT | O_WRONLY | O_TRUNC);
 	}
-	// if (redir->type == REDIR_HEREDOC || redir->type == REDIR_HEREDOC_RAW)
-		//heredoc function
+	if (redir->type == REDIR_HEREDOC)
+	{
+		ft_close(&cmd->fdin);
+		cmd->fdin = here_doc(redir);
+	}
 	if (redir->type == REDIR_APPEND)
 	{
 		ft_close(&cmd->fdout);
