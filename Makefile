@@ -30,6 +30,7 @@ SRC =	src/main.c\
 		src/exec/exec_pipes.c\
 		src/exec/exec_bin.c\
 		src/exec/exec_env.c\
+		src/exec/exec_parent.c\
 		src/signal/signal.c\
 
 INC =	inc/minishell.h

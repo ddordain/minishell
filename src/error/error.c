@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 12:00:19 by ddordain          #+#    #+#             */
-/*   Updated: 2022/04/13 15:14:33 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/14 15:19:54 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,10 @@ void	pre_exec_error(const char *s, t_minishell *sh)
 			ft_close(&cur_cmd->pipefd[PIPE_RD]);
 		if (cur_cmd->pipefd[PIPE_WR] != -1)
 			ft_close(&cur_cmd->pipefd[PIPE_WR]);
-		// if (cur_cmd->pid != -1)
-		// 	kill(cur_cmd->pid, SIGTERM);
+		if (cur_cmd->pid != -1)
+			kill(cur_cmd->pid, SIGTERM);
 		cur_elem = cur_elem->next;
 	}
-	perror_exit(NULL, sh);
 }
 
 void	perror_exit(const char *str, t_minishell *sh)

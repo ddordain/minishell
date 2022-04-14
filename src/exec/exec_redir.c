@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 11:19:37 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/14 13:05:52 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/14 13:23:58 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	here_doc(t_redir *redir)
 
 	if (pipe(pipe_heredoc) != 0)
 		return (-1);
-	// ctrl+c doit free line et fermer le pipe heredoc
+	// ici ctrl+c doit free line, fermer le pipe heredoc et quitter le process
 	line = readline("> ");
 	if (!line)
 		return (0);
@@ -30,6 +30,7 @@ static int	here_doc(t_redir *redir)
 		free(line);
 		line = readline("> ");
 	}
+	// ici ctrl+c doit etre ignoré
 	if (line)
 		free(line);
 	else

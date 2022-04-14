@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 12:43:10 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/13 15:59:43 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/14 15:10:45 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,6 +177,7 @@ void	av_add(t_command *cmd, t_minishell *sh);
 int		minishell_exec(t_minishell *sh);
 
 /*	*	* exec cmd */
+int		exec_in_parent(t_elem *elem, t_command *cmd);
 void	exec_cmd(t_elem *cur_elem, t_minishell *sh);
 int		exec_redir(t_elem *elem, t_command *cmd);
 int		exec_pipe(t_elem *elem, t_command *cmd);
@@ -193,6 +194,7 @@ void	exec_close_fds(t_elem *elem);
 void	minishell_exit(t_minishell *sh, int status);
 int		str_tab_len(char **tab);
 void	free_str_tab(char **tab, const int upto);
+bool	is_builtin(char *cmd);
 
 /*	* built-in */
 void	builtin_cd(t_minishell *sh, t_command *cmd);

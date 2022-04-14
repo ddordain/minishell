@@ -6,13 +6,13 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 16:36:29 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/13 15:17:01 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/14 15:18:56 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static bool	is_builtin(char *cmd)
+bool	is_builtin(char *cmd)
 {
 	if (!cmd)
 		return (false);
@@ -25,16 +25,6 @@ static bool	is_builtin(char *cmd)
 		|| ft_strcmp(cmd, "unset") == 0)
 		return (true);
 	return (false);
-}
-
-static int	exec_in_parent(t_command *cmd, t_dlist *dl_env)
-{
-	(void)cmd;
-	(void)dl_env;
-	// add redir
-	// if (ft_strcmp(cmd->av[0], "cd") == 0)
-	// 	return (builtin_cd(dl_env, cmd));
-	return (0);
 }
 
 static void	prep_next_cmd(t_elem *cur_elem)
@@ -83,13 +73,13 @@ int	minishell_exec(t_minishell *sh)
 	{
 		cur_cmd = cur_elem->data;
 		if (sh->dl_cmd.size == 1 && is_builtin(cur_cmd->av[0]))
-			return (exec_in_parent(cur_cmd, &sh->dl_env));
+			return (exec_in_parent(cur_elem, cur_cmd));
 		if (cur_elem->next != NULL)
 			if (pipe(cur_cmd->pipefd) == -1)
-				pre_exec_error("pipe()", sh);
+				return (pre_exec_error("pipe()", sh), 1);
 		cur_cmd->pid = fork();
 		if (cur_cmd->pid == -1)
-			pre_exec_error("fork()", sh);
+			return (pre_exec_error("fork()", sh), 1);
 		if (cur_cmd->pid == 0)
 			exec_cmd(cur_elem, sh); // update signal for child
 		else
