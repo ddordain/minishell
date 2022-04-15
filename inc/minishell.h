@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 12:43:10 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/14 15:10:45 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/15 13:26:47 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ typedef struct s_command
 	int			fdout;
 	int			pipefd[2];
 	pid_t		pid;
+	int			here_doc;
 	t_minishell	*sh;
 }	t_command;
 
@@ -171,6 +172,9 @@ void	redir_add(t_command *cmd, t_minishell *sh);
 
 /*	*	* cmd av */
 void	av_add(t_command *cmd, t_minishell *sh);
+
+/*	*	* here_docs */
+int		make_heredocs(t_minishell *sh);
 
 /*	* exec */
 /*	*	* exec master */

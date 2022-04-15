@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 13:36:11 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/11 14:38:23 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/15 12:35:38 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ static void	cmd_init(t_command *cmd, t_minishell *sh)
 	cmd->pipefd[0] = -2;
 	cmd->pipefd[1] = -2;
 	cmd->pid = -2;
+	cmd->here_doc = -2;
 	cmd->sh = sh;
 }
 

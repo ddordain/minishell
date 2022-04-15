@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 16:36:29 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/14 15:18:56 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/15 13:29:28 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,18 @@ bool	is_builtin(char *cmd)
 	return (false);
 }
 
+static void	wait_one(t_command *cmd)
+{
+	int	status;
+
+	if (waitpid(cmd->pid, &status, 0) == -1)
+		perror("waitpid()");
+	if (WIFEXITED(status))
+		g_exit_status = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+		g_exit_status = 128 + WTERMSIG(status);
+}
+
 static void	prep_next_cmd(t_elem *cur_elem)
 {
 	t_command	*cur_cmd;
@@ -37,6 +49,7 @@ static void	prep_next_cmd(t_elem *cur_elem)
 	if (cur_elem->prev)
 		prev_cmd = cur_elem->prev->data;
 	ft_close(&cur_cmd->pipefd[PIPE_WR]);
+	ft_close(&cur_cmd->here_doc);
 	if (cur_elem->next == NULL)
 		ft_close(&cur_cmd->pipefd[PIPE_RD]);
 	if (prev_cmd)
@@ -45,7 +58,6 @@ static void	prep_next_cmd(t_elem *cur_elem)
 
 static void	wait_all(t_minishell *sh)
 {
-	int			status;
 	t_elem		*cur_elem;
 	t_command	*cur_cmd;
 
@@ -53,12 +65,7 @@ static void	wait_all(t_minishell *sh)
 	while (cur_elem != NULL)
 	{
 		cur_cmd = cur_elem->data;
-		if (waitpid(cur_cmd->pid, &status, 0) == -1)
-			perror("waitpid()");
-		if (WIFEXITED(status))
-			g_exit_status = WEXITSTATUS(status);
-		else if (WIFSIGNALED(status))
-			g_exit_status = 128 + WTERMSIG(status);
+		wait_one(cur_cmd);
 		cur_elem = cur_elem->next;
 	}
 }

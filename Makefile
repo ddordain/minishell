@@ -17,6 +17,7 @@ SRC =	src/main.c\
 		src/parsing/cmd_add.c\
 		src/parsing/cmd_redir.c\
 		src/parsing/cmd_av.c\
+		src/parsing/heredoc.c\
 		src/builtin/cd.c\
 		src/builtin/unset.c\
 		src/builtin/echo.c\

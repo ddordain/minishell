@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 15:00:52 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/13 12:03:05 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/15 13:13:32 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,21 +33,18 @@ static int	minishell_start(t_minishell *sh)
 
 	err_code = lex(sh);
 	if (err_code != 0)
-	{
-		ft_dlist_destroy(&sh->dl_tok);
-		return (err_code);
-	}
+		return (ft_dlist_destroy(&sh->dl_tok), err_code);
 	parse(sh);
 	debug_print_tok(&sh->dl_tok);
 	make_cmds(sh);
 	ft_dlist_destroy(&sh->dl_tok);
 	debug_print_cmd(&sh->dl_cmd);
+	err_code = make_heredocs(sh);
+	if (err_code != 0)
+		return (ft_dlist_destroy(&sh->dl_cmd), err_code);
 	err_code = minishell_exec(sh);
 	if (err_code != 0)
-	{
-		ft_dlist_destroy(&sh->dl_cmd);
-		return (err_code);
-	}
+		return (ft_dlist_destroy(&sh->dl_cmd), err_code);
 	ft_dlist_destroy(&sh->dl_cmd);
 	return (0);
 }
