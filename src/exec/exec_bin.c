@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 16:51:08 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/13 15:51:17 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/15 17:22:23 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,18 +42,19 @@ static int	exec_absolute(t_command *cmd)
 		free(tmp);
 	if (!to_exec)
 		return (-1);
-	if (access(to_exec, F_OK) == -1)
+	if (access(to_exec, F_OK) == -1 && access(cmd->av[0], F_OK) == -1)
 	{
 		write(2, cmd->av[0], ft_len(cmd->av[0]));
 		write(2, ": command not found\n", 20);
 		return (free(to_exec), 127);
 	}
-	if (access(to_exec, X_OK) == -1)
+	if (access(to_exec, X_OK) == -1 && access(cmd->av[0], F_OK) == -1)
 	{
 		perror(cmd->av[0]);
 		return (free(to_exec), 126);
 	}
 	prep_exec(cmd, to_exec);
+	prep_exec(cmd, cmd->av[0]);
 	return (free(to_exec), 1);
 }
 
