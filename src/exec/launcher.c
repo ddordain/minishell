@@ -6,7 +6,7 @@
 /*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/18 15:44:39 by ddordain          #+#    #+#             */
-/*   Updated: 2022/04/18 18:03:17 by ddordain         ###   ########.fr       */
+/*   Updated: 2022/04/18 18:45:51 by ddordain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,7 @@ int	launcher(t_command *cmd)
 		builtin_echo(cmd->sh, cmd);
 	else if (ft_strcmp(cmd->av[0], "env") == 0)
 		builtin_env(cmd);
+	else if (ft_strcmp(cmd->av[0], "exit") == 0)
+		builtin_exit(cmd);
 	return (g_exit_status);
 }
