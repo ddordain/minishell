@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 12:43:10 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/15 13:26:47 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/18 17:57:54 by ddordain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,12 @@ typedef struct s_redir
 	char	*var;
 }	t_redir;
 
+typedef struct s_heredoc
+{
+	char	*line;
+	int		pipe_heredoc[2];
+}	t_heredoc;
+
 /* global */
 
 extern unsigned char	g_exit_status;
@@ -199,6 +205,10 @@ void	minishell_exit(t_minishell *sh, int status);
 int		str_tab_len(char **tab);
 void	free_str_tab(char **tab, const int upto);
 bool	is_builtin(char *cmd);
+int		write_fd(t_command *cmd, char *str);
+
+/*	*	* exec builtin */
+int		launcher(t_command *cmd);
 
 /*	* built-in */
 void	builtin_cd(t_minishell *sh, t_command *cmd);
@@ -206,10 +216,11 @@ void	builtin_export(t_minishell *sh, t_command *cmd);
 void	builtin_unset(t_dlist *dl_env, int ac, char **av);
 void	builtin_exit(t_minishell *sh, t_line *cmdline);
 void	builtin_echo(t_minishell *sh, t_command *cmd);
+void	builtin_env(t_command *cmd);
 
 /*	* signal */
 void	signal_handler(int handler, t_minishell *sh);
-void	echo_on(void);
+void	signal_heredoc_handler(t_minishell *sh, t_heredoc *doc);
 
 /*	* debug */
 void	debug_print_env(t_dlist *env_start);

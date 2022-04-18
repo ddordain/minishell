@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 15:00:52 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/15 13:13:32 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/18 17:18:03 by ddordain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	if (!isatty(0) || !isatty(1) || minishell_init(&sh, envp) != 0)
 		return (EXIT_FAILURE);
-	debug_print_env(&sh.dl_env);
 	while (1)
 	{
 		minishell_read(&sh.cmdline, &sh);

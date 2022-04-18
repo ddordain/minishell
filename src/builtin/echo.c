@@ -3,14 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 14:53:35 by ddordain          #+#    #+#             */
-/*   Updated: 2022/04/08 12:34:03 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/18 18:05:21 by ddordain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+static void	echo_return(t_minishell *sh, int return_value, t_command *cmd)
+{
+	if (cmd->pid == 0)
+	{
+		if (return_value == -1)
+			perror_exit("minishell", sh);
+		minishell_exit(sh, 0);
+	}
+	else
+	{
+		if (return_value == -1)
+		{
+			perror("minishell");
+			g_exit_status = 1;
+		}
+		else
+			g_exit_status = 0;
+	}
+}
 
 static char	*ft_strcat(char *dest, char *src)
 {
@@ -29,14 +49,13 @@ static char	*ft_strcat(char *dest, char *src)
 	return (dest);
 }
 
-static void	print_echo(bool n, int size, t_command *cmd, t_minishell *sh)
+static void	print_echo(int n, int size, t_command *cmd, t_minishell *sh)
 {
 	int		i;
 	char	*buffer_line;
+	int		err_write;
 
-	i = 1;
-	if (n == true)
-		i = 2;
+	i = n + 1;
 	buffer_line = ymalloc(size * sizeof(char), sh);
 	ft_bzero(buffer_line, size);
 	while (cmd->av[i] != NULL)
@@ -46,33 +65,30 @@ static void	print_echo(bool n, int size, t_command *cmd, t_minishell *sh)
 			buffer_line = ft_strcat(buffer_line, " ");
 		i++;
 	}
-	if (n == true)
-		write(1, buffer_line, ft_strlen(buffer_line));
-	else if (n == false)
-	{
-		write(1, buffer_line, ft_strlen(buffer_line));
-		write(1, "\n", 1);
-	}
+	err_write = write_fd(cmd, buffer_line);
+	if (n == 0)
+		err_write = write_fd(cmd, "\n");
+	echo_return(sh, err_write, cmd);
 }
 
 void	builtin_echo(t_minishell *sh, t_command *cmd)
 {
 	int		i;
-	bool	n;
+	int		n;
 	int		size;
 
 	i = 1;
-	n = false;
+	n = 0;
 	size = 0;
 	if (cmd->ac <= 1)
 	{
 		printf("\n");
 		return ;
 	}
-	if (ft_strcmp(cmd->av[1], "-n") == 0)
+	while (ft_strcmp(cmd->av[i], "-n") == 0)
 	{
-		i = 2;
-		n = true;
+		i++;
+		n++;
 	}
 	while (cmd->av[i] != NULL)
 	{

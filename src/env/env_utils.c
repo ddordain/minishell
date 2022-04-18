@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 13:09:44 by ddordain          #+#    #+#             */
-/*   Updated: 2022/04/08 13:23:33 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/18 17:39:08 by ddordain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,6 @@ int	set_env_value(t_minishell *sh, char *name, char *new_value)
 
 	address_env = get_env_data(&sh->dl_env, name);
 	address_new_value = ft_strdup_ymalloc(new_value, sh);
-	if (address_env->value != NULL)
-		free(address_env->value);
 	address_env->value = address_new_value;
 	return (EXIT_SUCCESS);
 }

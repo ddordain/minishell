@@ -22,6 +22,7 @@ SRC =	src/main.c\
 		src/builtin/unset.c\
 		src/builtin/echo.c\
 		src/builtin/export.c\
+		src/builtin/env.c\
 		src/debug/debug_print.c\
 		src/debug/rngalloc.c\
 		src/exec/exec_master.c\
@@ -32,6 +33,7 @@ SRC =	src/main.c\
 		src/exec/exec_bin.c\
 		src/exec/exec_env.c\
 		src/exec/exec_parent.c\
+		src/exec/launcher.c\
 		src/signal/signal.c\
 
 INC =	inc/minishell.h

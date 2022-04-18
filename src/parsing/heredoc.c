@@ -3,40 +3,47 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 12:46:17 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/15 16:36:33 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/18 18:04:14 by ddordain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static int	here_doc(t_redir *redir)
+static void	heredoc_eof(t_redir *redir)
 {
-	char	*line;
-	int		pipe_heredoc[2];
+	write(2, "minishell: warning: here-document delimited \
+by end-of-file (wanted `", 68);
+	write(2, redir->var, ft_len(redir->var));
+	write(2, "')\n", 3);
+}
 
-	if (pipe(pipe_heredoc) != 0)
+static int	here_doc(t_minishell *sh, t_redir *redir)
+{
+	t_heredoc	doc;
+
+	(void) sh;
+	if (pipe(doc.pipe_heredoc) != 0)
 		return (perror("minishell"), -1);
-	// ici ctrl+c doit free line, fermer le pipe heredoc et quitter le process
-	line = readline("> ");
-	if (!line)
-		return (0);
-	while (line && ft_strcmp(line, redir->var))
+	doc.line = readline("> ");
+	if (!doc.line)
+		return (heredoc_eof(redir), ft_close(&doc.pipe_heredoc[PIPE_WR]),
+			doc.pipe_heredoc[PIPE_RD]);
+	while (doc.line && ft_strcmp(doc.line, redir->var))
 	{
-		write(pipe_heredoc[PIPE_WR], line, ft_len(line));
-		write(pipe_heredoc[PIPE_WR], "\n", 1);
-		free(line);
-		line = readline("> ");
+		write(doc.pipe_heredoc[PIPE_WR], doc.line, ft_len(doc.line));
+		write(doc.pipe_heredoc[PIPE_WR], "\n", 1);
+		free(doc.line);
+		doc.line = readline("> ");
 	}
-	// ici ctrl+c doit etre ignoré
-	if (line)
-		free(line);
+	if (doc.line)
+		free(doc.line);
 	else
-		write(2, "\n", 1);
-	ft_close(&pipe_heredoc[PIPE_WR]);
-	return (pipe_heredoc[PIPE_RD]);
+		heredoc_eof(redir);
+	ft_close(&doc.pipe_heredoc[PIPE_WR]);
+	return (doc.pipe_heredoc[PIPE_RD]);
 }
 
 static int	heredoc_one(t_command *cmd)
@@ -51,7 +58,7 @@ static int	heredoc_one(t_command *cmd)
 		if (cur_redir->type == REDIR_HEREDOC)
 		{
 			ft_close(&cmd->here_doc);
-			cmd->here_doc = here_doc(cur_redir);
+			cmd->here_doc = here_doc(cmd->sh, cur_redir);
 			if (cmd->here_doc == -1)
 				return (-1);
 		}
