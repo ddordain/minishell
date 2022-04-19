@@ -6,32 +6,30 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 14:52:05 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/07 14:12:00 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/19 12:26:43 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static char	*find_var(const t_dlist *env, const char *src, const int size)
+static char	*find_var(t_minishell *sh, const char *src, const int size)
 {
 	t_elem	*cur_elem;
 	t_env	*cur_env;
 	char	*res;
 
 	if (src[0] == '?')
-		return (ft_itoa((int)g_exit_status));
-	cur_elem = env->head;
+		return (ft_itoa_ymalloc(sh, (int)g_exit_status));
+	cur_elem = sh->dl_env.head;
 	while (cur_elem != NULL)
 	{
 		cur_env = cur_elem->data;
 		if (ft_strncmp(cur_env->name, src, size) == 0
 			&& ft_strlen(cur_env->name) == (size_t)size)
-			return (ft_strdup(cur_env->value));
+			return (ft_strdup_ymalloc(cur_env->value, sh));
 		cur_elem = cur_elem->next;
 	}
-	res = malloc(sizeof(char));
-	if (!res)
-		return (NULL);
+	res = ymalloc(sizeof(char), sh);
 	res[0] = 0;
 	return (res);
 }
@@ -48,9 +46,7 @@ static char	*expand_one(char *src, const int start, t_minishell *sh)
 		end++;
 	if (end == start + 1 && src[end] == '?')
 		end++;
-	var = find_var(&sh->dl_env, src + start + 1, end - start - 1);
-	if (!var)
-		perror_exit("Malloc failure", sh);
+	var = find_var(sh, src + start + 1, end - start - 1);
 	res = ymalloc(
 			sizeof(char) * (ft_len(src) - end + start + ft_len(var) + 1), sh);
 	i = -1;

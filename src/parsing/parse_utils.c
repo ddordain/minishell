@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 14:55:31 by pwu               #+#    #+#             */
-/*   Updated: 2022/03/29 15:58:16 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/19 13:54:16 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	add_str(char *dst, const char *var, int *pos)
 	int	i;
 
 	i = -1;
-	while (var[++i])
+	while (var && var[++i])
 	{
 		dst[*pos] = var[i];
 		*pos = *pos + 1;
