@@ -6,7 +6,7 @@
 /*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 14:53:35 by ddordain          #+#    #+#             */
-/*   Updated: 2022/04/18 18:05:21 by ddordain         ###   ########.fr       */
+/*   Updated: 2022/04/19 17:06:30 by ddordain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	builtin_echo(t_minishell *sh, t_command *cmd)
 	size = 0;
 	if (cmd->ac <= 1)
 	{
-		printf("\n");
+		write_fd(cmd, "\n");
 		return ;
 	}
 	while (ft_strcmp(cmd->av[i], "-n") == 0)

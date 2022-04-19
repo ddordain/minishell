@@ -3,16 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 13:23:00 by ddordain          #+#    #+#             */
-/*   Updated: 2022/04/19 15:11:29 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/19 18:10:12 by ddordain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
 // return -1 if not valid, 0 if valid but no reset and 1 if valid and reset
+
+static void	export_error(int *return_value, t_command *cmd, const char *arg)
+{
+	if (arg != NULL)
+	{
+		write(2, "export: `", 9);
+		write(2, arg, ft_len(arg));
+		write(2, "': not a valid identifier\n", 26);
+	}
+	if (cmd->pid == 0)
+		*return_value = 1;
+	else
+		g_exit_status = 1;
+}
 
 static int	is_valid_env_name(char *name)
 {
@@ -56,15 +70,27 @@ static void	export_not_set(t_minishell *sh, char *str)
 void	builtin_export(t_minishell *sh, t_command *cmd)
 {
 	int	i;
+	int	return_value;
 
 	i = 0;
+	return_value = 0;
 	if (cmd->ac == 1)
-		return (builtin_env(cmd));
+	{
+		write_fd(cmd, "Export : invalid number of arguments (see man)\n");
+		if (cmd->pid == 0)
+			minishell_exit(sh, 1);
+		else
+			g_exit_status = 1;
+	}
 	while (cmd->av[++i] != NULL)
 	{
 		if (is_valid_env_name(cmd->av[i]) == 1)
 			export_and_set(sh, cmd->av[i]);
 		else if (is_valid_env_name(cmd->av[i]) == 0)
 			export_not_set(sh, cmd->av[i]);
+		else if (is_valid_env_name(cmd->av[i]) == -1)
+			export_error(&return_value, cmd, cmd->av[i]);
 	}
+	if (cmd->pid == 0)
+		minishell_exit(sh, return_value);
 }

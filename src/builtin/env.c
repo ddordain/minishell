@@ -6,7 +6,7 @@
 /*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 14:01:03 by ddordain          #+#    #+#             */
-/*   Updated: 2022/04/18 18:04:53 by ddordain         ###   ########.fr       */
+/*   Updated: 2022/04/19 17:10:49 by ddordain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,13 @@ void	builtin_env(t_command *cmd)
 	while (cur_elem != NULL)
 	{
 		cur_data = cur_elem->data;
-		err = write_fd(cmd, cur_data->name);
-		err = write_fd(cmd, "=");
-		err = write_fd(cmd, cur_data->value);
-		err = write_fd(cmd, "\n");
+		if (cur_data->value != NULL)
+		{
+			err = write_fd(cmd, cur_data->name);
+			err = write_fd(cmd, "=");
+			err = write_fd(cmd, cur_data->value);
+			err = write_fd(cmd, "\n");
+		}
 		if (err == -1)
 			break ;
 		cur_elem = cur_elem->next;
