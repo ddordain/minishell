@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 16:36:29 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/15 13:29:28 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/19 15:07:09 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	minishell_exec(t_minishell *sh)
 		if (cur_cmd->pid == -1)
 			return (pre_exec_error("fork()", sh), 1);
 		if (cur_cmd->pid == 0)
-			exec_cmd(cur_elem, sh); // update signal for child
+			exec_cmd(cur_elem, sh);
 		else
 			prep_next_cmd(cur_elem);
 		cur_elem = cur_elem->next;

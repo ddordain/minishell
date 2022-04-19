@@ -22,6 +22,7 @@ SRC =	src/main.c\
 		src/builtin/unset.c\
 		src/builtin/echo.c\
 		src/builtin/export.c\
+		src/builtin/export_utils.c\
 		src/builtin/env.c\
 		src/builtin/exit.c\
 		src/builtin/pwd.c\

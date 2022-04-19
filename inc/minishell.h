@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 12:43:10 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/19 14:21:24 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/19 15:09:38 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,6 +217,10 @@ void	builtin_exit(t_command *cmd);
 void	builtin_echo(t_minishell *sh, t_command *cmd);
 void	builtin_env(t_command *cmd);
 void	builtin_pwd(t_command *cmd);
+
+/*	* export utils */
+char	*malloc_buffer_value(char *str, t_minishell *sh);
+char	*malloc_buffer_name(char *str, t_minishell *sh);
 
 /*	* signal */
 void	signal_handler(int handler, t_minishell *sh);

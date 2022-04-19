@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 14:11:14 by ddordain          #+#    #+#             */
-/*   Updated: 2022/04/18 19:04:34 by ddordain         ###   ########.fr       */
+/*   Updated: 2022/04/19 15:10:53 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ static int	check_number(char *av)
 	return (EXIT_SUCCESS);
 }
 
-
 void	builtin_exit(t_command *cmd)
 {
 	write_fd(cmd, "exit\n");
@@ -86,7 +85,7 @@ void	builtin_exit(t_command *cmd)
 	if (cmd->ac == 1)
 		minishell_exit(cmd->sh, g_exit_status);
 	if ((ll_checker(cmd->av[1]) == -1 && ft_len(cmd->av[1]) > 2)
-			|| check_number(cmd->av[1]) == EXIT_FAILURE)
+		|| check_number(cmd->av[1]) == EXIT_FAILURE)
 		exit_return(cmd, 2, "exit: invalid argument\n");
 	else
 		g_exit_status = ll_checker(cmd->av[1]);

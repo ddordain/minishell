@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 13:23:00 by ddordain          #+#    #+#             */
-/*   Updated: 2022/04/19 14:35:14 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/19 15:11:29 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,39 +34,6 @@ static int	is_valid_env_name(char *name)
 		return (1);
 }
 
-static char *malloc_buffer_value(char *str, t_minishell *sh)
-{
-	char	*buffer_value;
-	int		start;
-	int		buffer_size;
-
-	buffer_size = 0;
-	start = 0;
-	while(str[start] != '\0' && str[start] != '=')
-		start++;
-	if (str[start] == '\0')
-		return (NULL);
-	start++;
-	while (str[start + buffer_size] != '\0')
-		buffer_size++;
-	buffer_value = (char *)ymalloc(sizeof(char) * (buffer_size + 1), sh);
-	buffer_value[buffer_size] = '\0';
-	return (ft_memcpy(buffer_value, str + start, buffer_size));
-}
-
-static char	*malloc_buffer_name(char *str, t_minishell *sh)
-{
-	char	*buffer_name;
-	int		buffer_size;
-
-	buffer_size = 0;
-	while(str[buffer_size] != '\0' && str[buffer_size] != '=')
-		buffer_size++;
-	buffer_name = (char *)ymalloc(sizeof(char) * (buffer_size + 1), sh);
-	buffer_name[buffer_size] = '\0';
-	return (ft_memcpy(buffer_name, str, buffer_size));
-}
-
 static void	export_and_set(t_minishell *sh, char *str)
 {
 	char	*name;
@@ -78,7 +45,7 @@ static void	export_and_set(t_minishell *sh, char *str)
 	set_env_value(sh, name, value);
 }
 
-static void export_not_set(t_minishell *sh, char *str)
+static void	export_not_set(t_minishell *sh, char *str)
 {
 	char	*name;
 
@@ -88,11 +55,11 @@ static void export_not_set(t_minishell *sh, char *str)
 
 void	builtin_export(t_minishell *sh, t_command *cmd)
 {
-	int		i; 
+	int	i;
 
 	i = 0;
 	if (cmd->ac == 1)
-		return builtin_env(cmd);
+		return (builtin_env(cmd));
 	while (cmd->av[++i] != NULL)
 	{
 		if (is_valid_env_name(cmd->av[i]) == 1)
