@@ -6,7 +6,7 @@
 /*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 12:43:10 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/19 17:53:24 by ddordain         ###   ########.fr       */
+/*   Updated: 2022/04/19 18:41:07 by ddordain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,7 +207,7 @@ bool	is_builtin(char *cmd);
 int		write_fd(t_command *cmd, char *str);
 
 /*	*	* exec builtin */
-int		launcher(t_command *cmd);
+int		launcher(t_elem *elem, t_command *cmd);
 
 /*	* built-in */
 void	builtin_cd(t_minishell *sh, t_command *cmd);

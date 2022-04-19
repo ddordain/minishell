@@ -3,14 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 17:34:48 by ddordain          #+#    #+#             */
-/*   Updated: 2022/04/19 14:21:15 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/19 18:37:47 by ddordain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+static void	pwd_return(int return_value, t_command *cmd)
+{
+	if (cmd->pid == 0)
+		minishell_exit(cmd->sh, return_value);
+	else
+		g_exit_status = return_value;
+}
 
 static char	*get_pwd(void)
 {
@@ -28,8 +36,11 @@ void	builtin_pwd(t_command *cmd)
 
 	str = get_pwd();
 	if (str == NULL)
-		return (perror("pwd"));
-	write_fd(cmd, str);
-	write_fd(cmd, "\n");
+		return (perror("pwd"), pwd_return(1, cmd));
+	if (write_fd(cmd, str) == -1)
+		return (perror("pwd"), free(str), pwd_return(1, cmd));
+	if (write_fd(cmd, "\n") == -1)
+		return (perror("pwd"), free(str), pwd_return(1, cmd));
 	free(str);
+	pwd_return(0, cmd);
 }

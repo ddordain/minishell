@@ -6,7 +6,7 @@
 /*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 16:04:29 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/18 16:18:53 by ddordain         ###   ########.fr       */
+/*   Updated: 2022/04/19 18:40:22 by ddordain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	exec_cmd(t_elem *cur_elem, t_minishell *sh)
 	if (cur_cmd->ac == 0)
 		minishell_exit(sh, 0);
 	if (is_builtin(cur_cmd->av[0]) == true)
-		err_code = launcher(cur_cmd);
+		err_code = launcher(cur_elem, cur_cmd);
 	else
 		err_code = exec_bin(cur_elem, cur_cmd);
 	if (err_code != 0)
