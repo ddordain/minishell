@@ -6,7 +6,7 @@
 /*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 13:09:44 by ddordain          #+#    #+#             */
-/*   Updated: 2022/04/19 14:00:19 by ddordain         ###   ########.fr       */
+/*   Updated: 2022/04/19 16:49:51 by ddordain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,8 @@ int	set_env_value(t_minishell *sh, char *name, char *new_value)
 
 	address_env = get_env_data(&sh->dl_env, name);
 	address_new_value = ft_strdup_ymalloc(new_value, sh);
-	address_env->value = address_new_value;
+	if (address_env != NULL)
+		address_env->value = address_new_value;
 	return (EXIT_SUCCESS);
 }
 
