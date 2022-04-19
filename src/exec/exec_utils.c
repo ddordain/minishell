@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 12:49:01 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/18 13:35:39 by ddordain         ###   ########.fr       */
+/*   Updated: 2022/04/19 15:49:51 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ void	exec_close_fds(t_elem *elem)
 
 void	minishell_exit(t_minishell *sh, int status)
 {
+	close(0);
+	close(1);
 	ft_dlist_destroy(&sh->dl_tok);
 	ft_dlist_destroy(&sh->dl_env);
 	ft_dlist_destroy(&sh->dl_cmd);
