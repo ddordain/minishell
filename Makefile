@@ -24,6 +24,7 @@ SRC =	src/main.c\
 		src/builtin/export.c\
 		src/builtin/env.c\
 		src/builtin/exit.c\
+		src/builtin/pwd.c\
 		src/debug/debug_print.c\
 		src/debug/rngalloc.c\
 		src/exec/exec_master.c\

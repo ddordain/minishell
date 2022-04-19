@@ -6,7 +6,7 @@
 /*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 13:23:00 by ddordain          #+#    #+#             */
-/*   Updated: 2022/04/07 16:03:32 by ddordain         ###   ########.fr       */
+/*   Updated: 2022/04/19 14:07:50 by ddordain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ static char *malloc_buffer_value(char *str, t_minishell *sh)
 	while (str[start + buffer_size] != '\0')
 		buffer_size++;
 	buffer_value = (char *)ymalloc(sizeof(char) * (buffer_size + 1), sh);
+	buffer_value[buffer_size] = '\0';
 	return (ft_memcpy(buffer_value, str + start, buffer_size));
 }
 
@@ -62,6 +63,7 @@ static char	*malloc_buffer_name(char *str, t_minishell *sh)
 	while(str[buffer_size] != '\0' && str[buffer_size] != '=')
 		buffer_size++;
 	buffer_name = (char *)ymalloc(sizeof(char) * (buffer_size + 1), sh);
+	buffer_name[buffer_size] = '\0';
 	return (ft_memcpy(buffer_name, str, buffer_size));
 }
 
@@ -71,11 +73,11 @@ static void	export_and_set(t_minishell *sh, char *str)
 	char	*value;
 
 	name = malloc_buffer_name(str, sh);
+	printf("name to export : %s\n", name);
 	value = malloc_buffer_value(str, sh);
 	check_name(name, sh);
 	set_env_value(sh, name, value);
-	free(name);
-	free(value);
+	printf("value to export : %s\n", value);
 }
 
 static void export_not_set(t_minishell *sh, char *str)
@@ -84,7 +86,6 @@ static void export_not_set(t_minishell *sh, char *str)
 
 	name = malloc_buffer_name(str, sh);
 	check_name(name, sh);
-	free(name);
 }
 
 void	builtin_export(t_minishell *sh, t_command *cmd)
@@ -93,7 +94,7 @@ void	builtin_export(t_minishell *sh, t_command *cmd)
 
 	i = 0;
 	if (cmd->ac == 1)
-		return ;
+		return builtin_env(cmd);
 	while (cmd->av[++i] != NULL)
 	{
 		if (is_valid_env_name(cmd->av[i]) == 1)

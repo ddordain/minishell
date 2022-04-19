@@ -6,7 +6,7 @@
 /*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 12:43:10 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/18 18:45:41 by ddordain         ###   ########.fr       */
+/*   Updated: 2022/04/19 14:06:53 by ddordain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,10 +213,12 @@ int		launcher(t_command *cmd);
 /*	* built-in */
 void	builtin_cd(t_minishell *sh, t_command *cmd);
 void	builtin_export(t_minishell *sh, t_command *cmd);
-void	builtin_unset(t_dlist *dl_env, int ac, char **av);
+void    builtin_unset(t_command *cmd);
 void	builtin_exit(t_command *cmd);
 void	builtin_echo(t_minishell *sh, t_command *cmd);
 void	builtin_env(t_command *cmd);
+void	builtin_pwd(t_command *cmd);
+
 
 /*	* signal */
 void	signal_handler(int handler, t_minishell *sh);
