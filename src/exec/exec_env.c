@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 14:01:20 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/12 17:39:48 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/19 14:24:05 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char	*path_add_slash(char *s1)
 
 	if (!s1)
 		return (NULL);
-	res = malloc(sizeof(char) * (ft_strlen(s1) + 2));
+	res = malloc(sizeof(char) * (ft_len(s1) + 2));
 	if (!res)
 	{
 		free(s1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 15:00:52 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/18 17:18:03 by ddordain         ###   ########.fr       */
+/*   Updated: 2022/04/19 14:59:00 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,8 @@ static int	minishell_start(t_minishell *sh)
 	if (err_code != 0)
 		return (ft_dlist_destroy(&sh->dl_tok), err_code);
 	parse(sh);
-	debug_print_tok(&sh->dl_tok);
 	make_cmds(sh);
 	ft_dlist_destroy(&sh->dl_tok);
-	debug_print_cmd(&sh->dl_cmd);
 	err_code = make_heredocs(sh);
 	if (err_code != 0)
 		return (ft_dlist_destroy(&sh->dl_cmd), err_code);

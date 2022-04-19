@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 15:48:33 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/08 13:16:52 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/19 14:32:57 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@ char	*ft_strdup_ymalloc(const char *s, t_minishell *sh)
 	size_t	size;
 	char	*dest;
 
-	size = ft_strlen(s) + 1;
+	if (s == NULL)
+		return (NULL);
+	size = ft_len(s) + 1;
 	dest = ymalloc(sizeof(char) * size, sh);
 	ft_memcpy(dest, s, size);
 	return (dest);

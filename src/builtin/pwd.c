@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 17:34:48 by ddordain          #+#    #+#             */
-/*   Updated: 2022/04/19 14:07:17 by ddordain         ###   ########.fr       */
+/*   Updated: 2022/04/19 14:21:15 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static char	*get_pwd(void)
 
 void	builtin_pwd(t_command *cmd)
 {
-	char*	str;
+	char	*str;
 
 	str = get_pwd();
 	if (str == NULL)

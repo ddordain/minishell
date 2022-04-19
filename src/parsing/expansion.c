@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 14:52:05 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/19 12:26:43 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/19 14:36:27 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ static char	*expand_one(char *src, const int start, t_minishell *sh)
 	add_str(res, var, &i);
 	add_str(res, src + end, &i);
 	res[i] = 0;
-	free(var);
 	return (res);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 13:23:00 by ddordain          #+#    #+#             */
-/*   Updated: 2022/04/19 14:07:50 by ddordain         ###   ########.fr       */
+/*   Updated: 2022/04/19 14:35:14 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,9 @@ static void	export_and_set(t_minishell *sh, char *str)
 	char	*value;
 
 	name = malloc_buffer_name(str, sh);
-	printf("name to export : %s\n", name);
 	value = malloc_buffer_value(str, sh);
 	check_name(name, sh);
 	set_env_value(sh, name, value);
-	printf("value to export : %s\n", value);
 }
 
 static void export_not_set(t_minishell *sh, char *str)

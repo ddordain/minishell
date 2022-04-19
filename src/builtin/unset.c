@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 13:00:38 by ddordain          #+#    #+#             */
-/*   Updated: 2022/04/19 14:07:41 by ddordain         ###   ########.fr       */
+/*   Updated: 2022/04/19 14:20:55 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void    builtin_unset(t_command *cmd)
+void	builtin_unset(t_command *cmd)
 {
 	t_elem	*elem;
 	t_env	*data;
