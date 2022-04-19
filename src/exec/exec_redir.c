@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 11:19:37 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/15 13:29:52 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/19 12:04:32 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	redir_one(t_elem *elem, t_command *cmd, t_redir *redir)
 	if (redir->type == REDIR_TRUNC)
 	{
 		ft_close(&cmd->fdout);
-		cmd->fdout = open(redir->var, O_CREAT | O_WRONLY | O_TRUNC);
+		cmd->fdout = open(redir->var, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	}
 	if (redir->type == REDIR_HEREDOC)
 	{
@@ -34,7 +34,7 @@ static int	redir_one(t_elem *elem, t_command *cmd, t_redir *redir)
 	if (redir->type == REDIR_APPEND)
 	{
 		ft_close(&cmd->fdout);
-		cmd->fdout = open(redir->var, O_CREAT | O_WRONLY | O_APPEND);
+		cmd->fdout = open(redir->var, O_CREAT | O_WRONLY | O_APPEND, 0644);
 	}
 	if (cmd->fdin == -1 || cmd->fdout == -1)
 		return (perror(redir->var), exec_close_fds(elem), -1);
