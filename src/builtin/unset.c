@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 13:00:38 by ddordain          #+#    #+#             */
-/*   Updated: 2022/04/20 11:46:51 by ddordain         ###   ########.fr       */
+/*   Updated: 2022/04/20 14:54:59 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,6 @@ void	builtin_unset(t_command *cmd)
 		}
 	}
 	if (cmd->pid == 0)
-		minishell_exit(cmd->sh, return_value);
+		minishell_exit(cmd->sh, return_value, cmd);
 	g_exit_status = return_value;
 }

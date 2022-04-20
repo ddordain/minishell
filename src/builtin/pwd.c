@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 17:34:48 by ddordain          #+#    #+#             */
-/*   Updated: 2022/04/19 18:37:47 by ddordain         ###   ########.fr       */
+/*   Updated: 2022/04/20 14:55:00 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	pwd_return(int return_value, t_command *cmd)
 {
 	if (cmd->pid == 0)
-		minishell_exit(cmd->sh, return_value);
+		minishell_exit(cmd->sh, return_value, cmd);
 	else
 		g_exit_status = return_value;
 }

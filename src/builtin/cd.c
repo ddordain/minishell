@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 16:22:57 by ddordain          #+#    #+#             */
-/*   Updated: 2022/04/20 11:25:46 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/20 14:55:05 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ static void	cd_return(int return_value, t_command *cmd, char *err_msg)
 		{
 			if (err_msg != NULL)
 				write(2, err_msg, ft_len(err_msg));
-			minishell_exit(cmd->sh, 1);
+			minishell_exit(cmd->sh, 1, cmd);
 		}
-		minishell_exit(cmd->sh, 0);
+		minishell_exit(cmd->sh, 0, cmd);
 	}
 	else
 	{

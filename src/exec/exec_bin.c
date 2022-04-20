@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 16:51:08 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/19 16:54:02 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/20 15:39:12 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int	exec_bin(t_elem *elem, t_command *cmd)
 	int		i;
 	int		err_code;
 
+	ft_close(&cmd->pipefd[PIPE_RD]);
 	paths = get_paths(&cmd->sh->dl_env);
 	if (!paths && get_env_value(&cmd->sh->dl_env, "PATH") != NULL)
 		return (exec_error(NULL, NULL, elem, -1), 1);

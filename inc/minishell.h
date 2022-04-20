@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 12:43:10 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/19 18:41:07 by ddordain         ###   ########.fr       */
+/*   Updated: 2022/04/20 14:52:37 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,7 +200,7 @@ char	*path_add_slash(char *s1);
 /*	*	* exec utils */
 int		ft_close(int *fd);
 void	exec_close_fds(t_elem *elem);
-void	minishell_exit(t_minishell *sh, int status);
+void	minishell_exit(t_minishell *sh, int status, t_command *cmd);
 int		str_tab_len(char **tab);
 void	free_str_tab(char **tab, const int upto);
 bool	is_builtin(char *cmd);

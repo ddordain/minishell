@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 14:53:35 by ddordain          #+#    #+#             */
-/*   Updated: 2022/04/20 14:18:09 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/20 14:54:52 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ static void	echo_return(t_minishell *sh, int return_value, t_command *cmd)
 		if (return_value == -1)
 		{
 			perror("minishell");
-			minishell_exit(sh, 1);
+			minishell_exit(sh, 1, cmd);
 		}
-		minishell_exit(sh, 0);
+		minishell_exit(sh, 0, cmd);
 	}
 	else
 	{

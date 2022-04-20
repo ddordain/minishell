@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipes.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 15:13:13 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/20 12:18:53 by ddordain         ###   ########.fr       */
+/*   Updated: 2022/04/20 14:39:37 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,15 @@ static int	exec_pipe_in(t_elem *elem, t_command *cmd)
 		if (ft_close(&prev_cmd->pipefd[PIPE_RD]) == -1)
 			return (-1);
 	}
-	if (dup2(cmd->fdin, STDIN_FILENO) == -1)
-		return (perror("dup2"), -1);
-	if (cmd->fdin == cmd->here_doc)
-		cmd->here_doc = -2;
-	if (ft_close(&cmd->fdin) == -1)
-		return (-1);
+	if (cmd->fdin != 0)
+	{
+		if (dup2(cmd->fdin, STDIN_FILENO) == -1)
+			return (perror("dup2"), -1);
+		if (cmd->fdin == cmd->here_doc)
+			cmd->here_doc = -2;
+		if (ft_close(&cmd->fdin) == -1)
+			return (-1);
+	}
 	return (0);
 }
 
@@ -41,13 +44,14 @@ static int	exec_pipe_out(t_elem *elem, t_command *cmd)
 			return (perror("dup2"), -1);
 		if (ft_close(&cmd->pipefd[PIPE_WR]) == -1)
 			return (-1);
-		if (ft_close(&cmd->pipefd[PIPE_RD]) == -1)
+	}
+	if (cmd->fdout != 1)
+	{
+		if (dup2(cmd->fdout, STDOUT_FILENO) == -1)
+			return (perror("dup2"), -1);
+		if (ft_close(&cmd->fdout) == -1)
 			return (-1);
 	}
-	if (dup2(cmd->fdout, STDOUT_FILENO) == -1)
-		return (perror("dup2"), -1);
-	if (ft_close(&cmd->fdout) == -1)
-		return (-1);
 	return (0);
 }
 

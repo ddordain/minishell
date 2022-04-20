@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 14:11:14 by ddordain          #+#    #+#             */
-/*   Updated: 2022/04/19 15:10:53 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/20 15:00:33 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,13 @@ static void	exit_return(t_command *cmd, int return_value, char *err_msg)
 	if (cmd->pid == 0)
 	{
 		if (return_value == 2)
-			write_fd(cmd, err_msg);
-		minishell_exit(cmd->sh, return_value);
+			write(2, err_msg, ft_len(err_msg));
+		minishell_exit(cmd->sh, return_value, cmd);
 	}
 	else
 	{
 		if (return_value == 2)
-			write_fd(cmd, err_msg);
+			write(2, err_msg, ft_len(err_msg));
 		g_exit_status = return_value;
 	}
 }
@@ -79,15 +79,16 @@ static int	check_number(char *av)
 
 void	builtin_exit(t_command *cmd)
 {
-	write_fd(cmd, "exit\n");
+	if (cmd->pid != 0)
+		write(2, "exit\n", 5);
 	if (cmd->ac > 2)
 		return (exit_return(cmd, 2, "exit: too many arguments\n"));
 	if (cmd->ac == 1)
-		minishell_exit(cmd->sh, g_exit_status);
+		minishell_exit(cmd->sh, g_exit_status, cmd);
 	if ((ll_checker(cmd->av[1]) == -1 && ft_len(cmd->av[1]) > 2)
 		|| check_number(cmd->av[1]) == EXIT_FAILURE)
 		exit_return(cmd, 2, "exit: invalid argument\n");
 	else
 		g_exit_status = ll_checker(cmd->av[1]);
-	minishell_exit(cmd->sh, g_exit_status);
+	minishell_exit(cmd->sh, g_exit_status, cmd);
 }

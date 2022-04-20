@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 13:23:00 by ddordain          #+#    #+#             */
-/*   Updated: 2022/04/20 11:48:57 by ddordain         ###   ########.fr       */
+/*   Updated: 2022/04/20 14:55:01 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	builtin_export(t_minishell *sh, t_command *cmd)
 	{
 		write(2, "Export : invalid number of arguments (see man)\n", 47);
 		if (cmd->pid == 0)
-			minishell_exit(sh, 1);
+			minishell_exit(sh, 1, cmd);
 		else
 			g_exit_status = 1;
 	}
@@ -88,5 +88,5 @@ void	builtin_export(t_minishell *sh, t_command *cmd)
 			export_error(&return_value, cmd, cmd->av[i]);
 	}
 	if (cmd->pid == 0)
-		minishell_exit(sh, return_value);
+		minishell_exit(sh, return_value, cmd);
 }
