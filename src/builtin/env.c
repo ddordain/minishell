@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 14:01:03 by ddordain          #+#    #+#             */
-/*   Updated: 2022/04/19 17:10:49 by ddordain         ###   ########.fr       */
+/*   Updated: 2022/04/20 11:38:51 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,10 @@ static void	env_return(t_minishell *sh, int return_value, t_command *cmd)
 	if (cmd->pid == 0)
 	{
 		if (return_value == -1)
-			perror_exit("minishell", sh);
+		{
+			perror("minishell");
+			minishell_exit(sh, 1);
+		}
 		minishell_exit(sh, 0);
 	}
 	else

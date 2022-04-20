@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 16:22:57 by ddordain          #+#    #+#             */
-/*   Updated: 2022/04/19 16:52:17 by ddordain         ###   ########.fr       */
+/*   Updated: 2022/04/20 11:25:46 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	cd_return(int return_value, t_command *cmd, char *err_msg)
 		{
 			if (err_msg != NULL)
 				write(2, err_msg, ft_len(err_msg));
-			perror_exit(NULL, cmd->sh);
+			minishell_exit(cmd->sh, 1);
 		}
 		minishell_exit(cmd->sh, 0);
 	}

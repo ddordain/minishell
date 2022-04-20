@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 14:53:35 by ddordain          #+#    #+#             */
-/*   Updated: 2022/04/19 17:06:30 by ddordain         ###   ########.fr       */
+/*   Updated: 2022/04/20 11:33:49 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,10 @@ static void	echo_return(t_minishell *sh, int return_value, t_command *cmd)
 	if (cmd->pid == 0)
 	{
 		if (return_value == -1)
-			perror_exit("minishell", sh);
+		{
+			perror("minishell");
+			minishell_exit(sh, 1);
+		}
 		minishell_exit(sh, 0);
 	}
 	else
@@ -82,7 +85,7 @@ void	builtin_echo(t_minishell *sh, t_command *cmd)
 	size = 0;
 	if (cmd->ac <= 1)
 	{
-		write_fd(cmd, "\n");
+		echo_return(sh, write_fd(cmd, "\n"), cmd);
 		return ;
 	}
 	while (ft_strcmp(cmd->av[i], "-n") == 0)
