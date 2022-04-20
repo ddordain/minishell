@@ -6,7 +6,7 @@
 /*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/18 15:44:39 by ddordain          #+#    #+#             */
-/*   Updated: 2022/04/19 18:40:44 by ddordain         ###   ########.fr       */
+/*   Updated: 2022/04/20 12:21:24 by ddordain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ int	launcher(t_elem *elem, t_command *cmd)
 		builtin_pwd(cmd);
 	else if (ft_strcmp(cmd->av[0], "unset") == 0)
 		builtin_unset(cmd);
+	if (cmd->fdin == cmd->here_doc)
+		cmd->here_doc = -2;
 	exec_close_fds(elem);
 	return (g_exit_status);
 }

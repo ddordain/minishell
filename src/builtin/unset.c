@@ -6,7 +6,7 @@
 /*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 13:00:38 by ddordain          #+#    #+#             */
-/*   Updated: 2022/04/19 18:21:15 by ddordain         ###   ########.fr       */
+/*   Updated: 2022/04/20 11:46:51 by ddordain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,7 @@
 static void	unset_error(int *return_value, t_command *cmd, const char *arg)
 {
 	if (arg != NULL)
-	{
-		write(2, "unset: `", 8);
-		write(2, arg, ft_len(arg));
-		write(2, "': not a valid identifier\n", 26);
-	}
+		write(2, "unset: invalid argument(s)\n", 27);
 	if (cmd->pid == 0)
 		*return_value = 1;
 	else

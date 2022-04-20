@@ -6,7 +6,7 @@
 /*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 13:23:00 by ddordain          #+#    #+#             */
-/*   Updated: 2022/04/19 18:10:12 by ddordain         ###   ########.fr       */
+/*   Updated: 2022/04/20 11:48:57 by ddordain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,7 @@
 static void	export_error(int *return_value, t_command *cmd, const char *arg)
 {
 	if (arg != NULL)
-	{
-		write(2, "export: `", 9);
-		write(2, arg, ft_len(arg));
-		write(2, "': not a valid identifier\n", 26);
-	}
+		write(2, "export: invalid argument(s)\n", 28);
 	if (cmd->pid == 0)
 		*return_value = 1;
 	else
@@ -76,7 +72,7 @@ void	builtin_export(t_minishell *sh, t_command *cmd)
 	return_value = 0;
 	if (cmd->ac == 1)
 	{
-		write_fd(cmd, "Export : invalid number of arguments (see man)\n");
+		write(2, "Export : invalid number of arguments (see man)\n", 47);
 		if (cmd->pid == 0)
 			minishell_exit(sh, 1);
 		else

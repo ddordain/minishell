@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipes.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: ddordain <ddordain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 15:13:13 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/15 13:39:21 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/20 12:18:53 by ddordain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ static int	exec_pipe_in(t_elem *elem, t_command *cmd)
 	}
 	if (dup2(cmd->fdin, STDIN_FILENO) == -1)
 		return (perror("dup2"), -1);
+	if (cmd->fdin == cmd->here_doc)
+		cmd->here_doc = -2;
 	if (ft_close(&cmd->fdin) == -1)
 		return (-1);
 	return (0);
