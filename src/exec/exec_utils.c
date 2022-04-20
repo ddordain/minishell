@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 12:49:01 by pwu               #+#    #+#             */
-/*   Updated: 2022/04/19 15:49:51 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/20 11:20:01 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ void	exec_close_fds(t_elem *elem)
 	ft_close(&cur_cmd->pipefd[PIPE_WR]);
 	ft_close(&cur_cmd->fdin);
 	ft_close(&cur_cmd->fdout);
+	ft_close(&cur_cmd->here_doc);
 }
 
 void	minishell_exit(t_minishell *sh, int status)
