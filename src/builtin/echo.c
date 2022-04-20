@@ -6,7 +6,7 @@
 /*   By: pwu <pwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 14:53:35 by ddordain          #+#    #+#             */
-/*   Updated: 2022/04/20 11:33:49 by pwu              ###   ########.fr       */
+/*   Updated: 2022/04/20 14:18:09 by pwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,15 +83,16 @@ void	builtin_echo(t_minishell *sh, t_command *cmd)
 	i = 1;
 	n = 0;
 	size = 0;
-	if (cmd->ac <= 1)
-	{
-		echo_return(sh, write_fd(cmd, "\n"), cmd);
-		return ;
-	}
-	while (ft_strcmp(cmd->av[i], "-n") == 0)
+	while (cmd->av[i] && ft_strcmp(cmd->av[i], "-n") == 0)
 	{
 		i++;
 		n++;
+	}
+	if (cmd->av[i] == NULL)
+	{
+		if (n == 0)
+			echo_return(sh, write_fd(cmd, "\n"), cmd);
+		return (echo_return(sh, write_fd(cmd, ""), cmd));
 	}
 	while (cmd->av[i] != NULL)
 	{
